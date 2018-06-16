@@ -1,0 +1,19 @@
+.material-icons.md-50 { font-size: 25px; }
+
+div.items {
+    max-height: 71.5vh;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 0.4vw;
+}
+
+::-webkit-scrollbar-track {
+    background: white; 
+}
+
+::-webkit-scrollbar-thumb {
+    background: #868e96; 
+}

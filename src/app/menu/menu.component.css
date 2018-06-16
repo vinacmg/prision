@@ -1,0 +1,9 @@
+div.menu {
+  background: #373a3c;
+  color: white;
+  height: 100vh;
+}
+
+div.menu ul {
+  list-style: none;
+}

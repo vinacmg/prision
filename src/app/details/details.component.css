@@ -1,0 +1,7 @@
+.btn:focus, .btn.focus {
+	box-shadow: none;
+}
+
+div.details {
+	min-width: 100%;
+}

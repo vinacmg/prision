@@ -23,6 +23,8 @@
               "src/assets"
             ],
             "styles": [
+              "src/assets/fonts/material-icons/material-icons.css",
+              "node_modules/bootswatch/dist/cosmo/bootstrap.min.css",
               "src/styles.css"
             ],
             "scripts": []

@@ -1,0 +1,39 @@
+<br>
+<br>
+<br>
+<br>
+<div class="row mx-1">
+  <div class="details" *ngIf="keys.length > 0">
+    <div class="card border-primary details" *ngIf="!addingItem; else newItem">  <!--align-self-center-->
+      <div class="card-body pt-1">
+          <div class="row justify-content-end">
+              <button type="button" class="btn btn-primary col-2">Edit</button>
+              <button type="button" class="btn btn-warning">Delete</button>
+          </div>
+        <h3 class="card-title">{{ name }}</h3>
+        <h5 class="card-text" *ngFor="let key of keys;index as i">
+          {{ key + ': ' + values[i]}}
+        </h5>
+      </div>
+    </div>  
+  </div>
+  
+  <ng-template #newItem>
+    <div class="card bg-dark text-white"> <!--align-self-center-->
+      <div class="card-body pt-1">
+        <h4 class="card-title">Novo item</h4>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <h4>detail</h4>
+        <h4>detail</h4>
+        <h4>detail</h4>
+        <h4>detail</h4>
+        <div class="container">
+          <div class="row justify-content-center">
+            <button type="button" class="btn btn-outline-success col-4">Concluir</button>
+            <button type="button" class="btn btn-outline-danger">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

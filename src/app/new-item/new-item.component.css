@@ -1,0 +1,5 @@
+div.new-item {
+  position: absolute;
+  top: 15vh;
+  z-index: 99999999999;
+}
