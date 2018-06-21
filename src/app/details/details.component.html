@@ -3,37 +3,127 @@
 <br>
 <br>
 <div class="row mx-1">
-  <div class="details" *ngIf="keys.length > 0">
-    <div class="card border-primary details" *ngIf="!addingItem; else newItem">  <!--align-self-center-->
+  <div class="details" *ngIf="keys.length > 0 && !addingItem; else newItem">
+    <div class="card border-primary" >  <!--align-self-center-->
       <div class="card-body pt-1">
           <div class="row justify-content-end">
               <button type="button" class="btn btn-primary col-2">Edit</button>
               <button type="button" class="btn btn-warning">Delete</button>
           </div>
         <h3 class="card-title">{{ name }}</h3>
+        <div [ngSwitch]="type">
+          <div *ngSwitchCase="'unidades'" class="card-text">
+            <h5 class="bold inline">Código: </h5><h5 class="inline">bola</h5><br>
+            <h5 class="bold inline">Nome: </h5><h5 class="inline">bola</h5><br>
+            <h5 class="bold inline">Rua: </h5><h5 class="inline">bola</h5><br>
+            <h5 class="bold inline">Bairro: </h5><h5 class="inline">bola</h5><br>
+            <h5 class="bold inline">Cidade: </h5><h5 class="inline">bola</h5><br>
+            <h5 class="bold inline">Estado: </h5><h5 class="inline">bola</h5><br>
+            <h5 class="bold inline">CEP: </h5><h5 class="inline">bola</h5><br>
+            <h5 class="bold link" (click)="fornecedoresByUnidade('codigo')">Fornecedores</h5>
+          </div> 
+          <div *ngSwitchCase="'fornecedores'">
+            <h5 class="bold">CNPJ: </h5>
+            <h5 class="bold">Nome da empresa: </h5>
+            <h5 class="bold">Item efertado: </h5>
+          </div>
+          <div *ngSwitchCase="'pavilhões'">
+            <h5 class="bold">Número: </h5>
+            <h5 class="bold">Função: </h5>
+          </div>
+          <div *ngSwitchCase="'blocos'">
+            <h5 class="bold">Número: </h5>
+            <h5 class="bold">Andar: </h5>
+          </div>
+          <div *ngSwitchCase="'celas'">
+            <h5 class="bold">Código: </h5>
+            <h5 class="bold">Quantidade máxima: </h5>
+            <h5 class="bold">Tipo: </h5>
+          </div>
+          <div *ngSwitchCase="'prisioneiros'">
+            <h5 class="bold">CPF: </h5>
+            <h5 class="bold">Data de nascimento: </h5>
+            <h5 class="bold">Observações médicas: </h5>
+            <h5 class="bold">Nome: </h5>
+            <h5 class="bold">RG: </h5>
+          </div>
+          <div *ngSwitchCase="'servidores'">
+            <h5 class="bold">CPF: </h5>
+            <h5 class="bold">Data de nascimento: </h5>
+            <h5 class="bold">Cargo: </h5>
+            <h5 class="bold">Nome: </h5>
+            <h5 class="bold">Salário: </h5>
+          </div>
+          <div *ngSwitchCase="'familiares'">
+            <h5 class="bold">CPF: </h5>
+            <h5 class="bold">Data de nascimento: </h5>
+            <h5 class="bold">RG: </h5>
+            <h5 class="bold">Nome: </h5>
+            <h5 class="bold">Parentesco: </h5>
+          </div>
+          <div *ngSwitchCase="'penas'">
+            <h5 class="bold">Artigo penal: </h5>
+            <h5 class="bold">Área judicial: </h5>
+            <h5 class="bold">Descrição: </h5>
+            <h5 class="bold">Duração mínima: </h5>
+            <h5 class="bold">Duração máxima: </h5>
+          </div>
+        </div>
+        <!--
         <h5 class="card-text" *ngFor="let key of keys;index as i">
           {{ key + ': ' + values[i]}}
         </h5>
+        -->
       </div>
     </div>  
   </div>
   
-  <ng-template #newItem>
-    <div class="card bg-dark text-white"> <!--align-self-center-->
-      <div class="card-body pt-1">
-        <h4 class="card-title">Novo item</h4>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <h4>detail</h4>
-        <h4>detail</h4>
-        <h4>detail</h4>
-        <h4>detail</h4>
-        <div class="container">
-          <div class="row justify-content-center">
-            <button type="button" class="btn btn-outline-success col-4">Concluir</button>
-            <button type="button" class="btn btn-outline-danger">Cancelar</button>
+  <ng-template #newItem >
+    <div class="details">
+        <div class="card bg-dark text-white"> <!--align-self-center-->
+          <div class="card-body pt-1">
+            <h4 class="card-title">Novo item</h4>
+            <form [ngSwitch]="type">
+              <fieldset *ngSwitchCase="'unidades'">
+                <div class="form-group">
+                  <label>Código</label>
+                  <input type="text" class="form-control" [(ngModel)]="value" name="codigo">
+                </div>
+                <div class="form-group">
+                  <label>Nome</label>
+                  <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Rua</label>
+                  <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Bairro</label>
+                  <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Cidade</label>
+                  <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Estado</label>
+                  <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>CEP</label>
+                  <input type="text" class="form-control">
+                </div>
+                <div class="container">
+                  <div class="row justify-content-center">
+                    <button type="submit" class="btn btn-outline-success col-4">Concluir</button>
+                    <button type="button" class="btn btn-outline-danger">Cancelar</button>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
           </div>
         </div>
-      </div>
     </div>
+    
   </ng-template>
 </div>

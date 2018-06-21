@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ItemsComponent } from '../items/items.component';
+import { ItemsService } from '../items/items.service';
 
 @Component({
   selector: 'app-menu',
@@ -7,19 +7,23 @@ import { ItemsComponent } from '../items/items.component';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-  @Input() items: ItemsComponent;
 
   active: string;
 
-  constructor() { }
+  constructor(private itemsService: ItemsService) { }
 
   ngOnInit() {
-    this.select('unidades')
+    this.itemsService.change.subscribe(type => {
+      this.active = type;
+    });
   }
 
   select(option:string) {
-    this.active = option;
-    this.items.setType(option);
+    this.itemsService.setType(option);
+  }
+
+  setActive(active) {
+    this.active = active;
   }
 
 }

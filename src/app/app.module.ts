@@ -2,21 +2,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { MenuComponent } from './menu/menu.component';
-import { ItemsComponent } from './items/items.component';
-import { DetailsComponent } from './details/details.component';
+import { MenuModule } from './menu/menu.module';
+import { DetailsModule } from './details/details.module';
 import { NewItemComponent } from './new-item/new-item.component';
+import { ItemsModule } from './items/items.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
-    ItemsComponent,
-    DetailsComponent,
     NewItemComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    MenuModule,
+    ItemsModule,
+    DetailsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DetailsComponent } from '../details/details.component';
+import { Observable } from 'rxjs';
+import { ItemsService } from './items.service';
 
 @Component({
   selector: 'app-items',
@@ -9,9 +11,13 @@ import { DetailsComponent } from '../details/details.component';
 export class ItemsComponent implements OnInit {
   @Input() details: DetailsComponent;
 
-  type: string;
-  active: string;
+  readonly ROOT_URL = 'https://jsonplaceholder.typicode.com';
 
+  type: string = 'unidades';
+
+  active: any;
+  //items:Observable<any[]>;
+  
   items:Array<any> = [{
     chave: 'artigo_penal',
     artigo_penal:555,
@@ -41,24 +47,60 @@ export class ItemsComponent implements OnInit {
     duracao_min:5,
     duracao_max:10
   }]
-
-  constructor() { }
+  
+  constructor(
+    private itemsService: ItemsService
+  ) { }
 
   ngOnInit() {
+    this.itemsService.change.subscribe(type => {
+      this.type = type;
+    });
+    this.itemsService.itemChanges.subscribe(items => {
+      this.items = items;
+    })
   }
 
-  select(key:string) {
-    this.active = key;
-    this.details.set(key, this.type);
+  select(item:any) {
+    this.active = item;
+    
     this.details.setAddingItem(false);
-  }
 
-  setType(type:string) {
-    this.type = type;
+    switch(this.type) {
+      case 'unidades':
+        this.details.set(this.active.chave);      
+        break;
+      case 'fornecedores':
+        this.details.set(this.active.chave);   
+        break;
+      case 'pavilhões':
+        this.details.set(this.active.chave);    
+        break;
+      case 'blocos':
+        this.details.set(this.active.chave);
+        break;
+      case 'celas':
+        this.details.set(this.active.chave);     
+        break;
+      case 'prisioneiros':
+        this.details.set(this.active.chave);     
+        break;
+      case 'familiares':
+        this.details.set(this.active.chave);     
+        break;
+      case 'servidores':
+        this.details.set(this.active.chave);     
+        break;
+      case 'penas':
+        this.details.set(this.active.chave);     
+        break;            
+      default:
+    }
   }
 
   newItem() {
     this.active = '';
     this.details.setAddingItem(true);
   }
+
 }

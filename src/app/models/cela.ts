@@ -1,5 +1,5 @@
 export interface Cela {
-    ccodigo:any;
+    codigo:any;
     quantidade_max?:any;
     tipo?:any;
 }

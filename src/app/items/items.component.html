@@ -5,12 +5,19 @@
   <div class="list-group">
     <span class="list-group-item list-group-item-action"
     *ngFor="let item of items"
-    [ngClass]="{'active': active === item[item.chave]}" 
-    (click)="select(item[item.chave])">
-      <!--{{ item.chave + ' ' + item[item.chave] }}-->
+    [ngClass]="{'active': active === item}" 
+    (click)="select(item)">
       {{ item[item.chave] }}
     </span>
   </div>
+  <!--
+  <div class="list-group">
+    <span class="list-group-item list-group-item-action"
+    *ngFor="let item of items | async">
+      {{ item | json}}
+    </span>
+  </div>
+  -->
 </div>
 <!--<i class="material-icons md-100">add_box</i>-->
 <br>
