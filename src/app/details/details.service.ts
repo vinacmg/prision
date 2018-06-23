@@ -48,5 +48,43 @@ export class DetailsService {
     }
     return this.details;
   }
-
+  /*
+  get(key:any) {
+    const type = this.type;
+    let params = new HttpParams().set('userId', userid);
+    switch(type) {
+      case 'unidades':
+        params.set('codigo', key);
+        this.itemsObs = this.http.get<UnidadePrisional>(this.ROOT_URL + '/posts', {params});
+        break;
+      case 'fornecedores':
+        params.set('cnpj', key);
+        this.itemsObs = this.http.get<Fornecedor>(this.ROOT_URL + '/posts');
+        break;
+      case 'pavilhões':
+        params.set('numero', key); ?????
+        this.itemsObs = this.http.get<Pavilhao>(this.ROOT_URL + '/posts');
+        break;
+      case 'blocos':
+        this.itemsObs = this.http.get<Bloco>(this.ROOT_URL + '/posts');
+        break;
+      case 'celas':
+        this.itemsObs = this.http.get<Cela>(this.ROOT_URL + '/posts');
+        break;
+      case 'prisioneiros':
+        this.itemsObs = this.http.get<Prisioneiro>(this.ROOT_URL + '/posts');
+        break;
+      case 'familiares':
+        this.itemsObs = this.http.get<Familiar>(this.ROOT_URL + '/posts');
+        break;
+      case 'servidores':
+       this.itemsObs = this.http.get<Servidor>(this.ROOT_URL + '/posts');
+        break;
+      case 'penas':
+        this.itemsObs = this.http.get<Pena>(this.ROOT_URL + '/posts');
+        break;            
+      default:
+    }
+  }
+  */
 }

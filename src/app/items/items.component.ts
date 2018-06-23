@@ -11,12 +11,12 @@ import { ItemsService } from './items.service';
 export class ItemsComponent implements OnInit {
   @Input() details: DetailsComponent;
 
-  readonly ROOT_URL = 'https://jsonplaceholder.typicode.com';
 
-  type: string = 'unidades';
+  type: string;
+  showItems: boolean = false;
+  posTitle: string = '';
 
   active: any;
-  //items:Observable<any[]>;
   
   items:Array<any> = [{
     chave: 'artigo_penal',
@@ -55,9 +55,15 @@ export class ItemsComponent implements OnInit {
   ngOnInit() {
     this.itemsService.change.subscribe(type => {
       this.type = type;
+      this.posTitle = '';
+      this.active = '';
+      this.showItems = true;
     });
     this.itemsService.itemChanges.subscribe(items => {
       this.items = items;
+    })
+    this.itemsService.fatherChanges.subscribe(father => {
+      this.posTitle = father;
     })
   }
 
@@ -65,6 +71,7 @@ export class ItemsComponent implements OnInit {
     this.active = item;
     
     this.details.setAddingItem(false);
+    this.details.showDetails = true;
 
     switch(this.type) {
       case 'unidades':
@@ -100,6 +107,8 @@ export class ItemsComponent implements OnInit {
 
   newItem() {
     this.active = '';
+    this.details.clear();
+    this.details.showDetails = true;
     this.details.setAddingItem(true);
   }
 

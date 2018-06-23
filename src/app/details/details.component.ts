@@ -9,7 +9,7 @@ import { DetailsService } from './details.service';
 })
 export class DetailsComponent implements OnInit {
 
-  name: string;
+  showDetails: boolean = false;
   addingItem: boolean = false;
   keys = [];
   values = [];
@@ -36,11 +36,11 @@ export class DetailsComponent implements OnInit {
   ngOnInit() {
     this.itemsService.change.subscribe(type => {
       this.type = type;
+      this.showDetails = false;
     });
   }
 
   set(key:any){ //usar details service pra dar get nessa key aqui dentro
-    this.name = key;
     /*
     let obj = {
       chave: 'artigo_penal',
@@ -85,6 +85,11 @@ export class DetailsComponent implements OnInit {
     }
   }
 
+  close() {
+    this.setAddingItem(false);
+    this.showDetails = false;
+  }
+
   setAddingItem(value: boolean) {
     this.addingItem = value;
   }
@@ -101,8 +106,7 @@ export class DetailsComponent implements OnInit {
     this.itemsService.fornecedoresByUnidade(codigo);
   }
 
-  save() {
-    //coloca no banco e 
+  clear() {
     this.bloco = { numero:0, andar:0 };
     this.cela = { codigo:0, quantidade_max:0, tipo:''};
     this.familiar = { cpf:'', data_nascimento: '', rg:'', nome:'', parentesco:'' };
@@ -112,6 +116,11 @@ export class DetailsComponent implements OnInit {
     this.unidade = { codigo:0, nome:'', rua:'', bairro:'', cidade:'', estado:'', cep:'' };
     this.prisioneiro = { cpf:'', data_nascimento:'', observacoes_medicas:'', nome:'', rg:'' };
     this.pena = { codigo_penal:'', area_judicial:'', descricao:'', duracao_min:0, duracao_max:0 };
+  }
+
+  save() {
+    //coloca no banco e 
+    this.clear();
   }
 
 }

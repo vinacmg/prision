@@ -1,28 +1,30 @@
-<br>
-<span><h1>{{ type | titlecase }}</h1></span>
-<br>
-<div class="items">
-  <div class="list-group">
-    <span class="list-group-item list-group-item-action"
-    *ngFor="let item of items"
-    [ngClass]="{'active': active === item}" 
-    (click)="select(item)">
-      {{ item[item.chave] }}
-    </span>
+<div *ngIf="showItems">
+  <br>
+  <span><h1>{{ (type | titlecase) + posTitle }}</h1></span>
+  <br>
+  <div class="items">
+    <div class="list-group">
+      <span class="list-group-item list-group-item-action"
+      *ngFor="let item of items"
+      [ngClass]="{'active': active === item}" 
+      (click)="select(item)">
+        {{ item[item.chave] }}
+      </span>
+    </div>
+    <!--
+    <div class="list-group">
+      <span class="list-group-item list-group-item-action"
+      *ngFor="let item of items | async">
+        {{ item | json}}
+      </span>
+    </div>
+    -->
   </div>
-  <!--
-  <div class="list-group">
-    <span class="list-group-item list-group-item-action"
-    *ngFor="let item of items | async">
-      {{ item | json}}
-    </span>
+  <!--<i class="material-icons md-100">add_box</i>-->
+  <br>
+  <div class="row justify-content-center">
+    <button type="button" class="btn btn-secondary btn-lg" (click)="newItem()">
+      Novo
+    </button>
   </div>
-  -->
-</div>
-<!--<i class="material-icons md-100">add_box</i>-->
-<br>
-<div class="row justify-content-center">
-  <button type="button" class="btn btn-secondary btn-lg" (click)="newItem()">
-    Novo
-  </button>
 </div>
