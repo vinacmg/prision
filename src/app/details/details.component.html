@@ -18,7 +18,7 @@
               <h5 class="bold inline">Rua: </h5><h5 class="inline">{{ unidade.rua }}</h5><br>
               <h5 class="bold inline">Bairro: </h5><h5 class="inline">{{ unidade.bairro }}</h5><br>
               <h5 class="bold inline">Cidade: </h5><h5 class="inline">{{ unidade.cidade }}</h5><br>
-              <h5 class="bold inline">Estado: </h5><h5 class="inline">{{ unidade.estado }}</h5><br>
+              <h5 class="bold inline">UF: </h5><h5 class="inline">{{ unidade.uf }}</h5><br>
               <h5 class="bold inline">CEP: </h5><h5 class="inline">{{ unidade.cep }}</h5><br>
               <h5 class="bold link" (click)="fornecedoresByUnidade('codigo')">Fornecedores</h5>
             </div> 
@@ -46,6 +46,10 @@
               <h5 class="bold inline">Observações médicas: </h5><h5 class="inline">{{ prisioneiro.observacoes_medicas }}</h5><br>
               <h5 class="bold inline">Nome: </h5><h5 class="inline">{{ prisioneiro.nome }}</h5><br>
               <h5 class="bold inline">RG: </h5><h5 class="inline">{{ prisioneiro.rg }}</h5><br>
+              <h5 class="bold inline">Unidade Prisional: </h5><h5 class="inline">{{ prisioneiro.nome_unidade+', código '+prisioneiro.codigo_unidade }}</h5><br>
+              <h5 class="bold inline">Pavilhão: </h5><h5 class="inline">{{ prisioneiro.pavilhao }}</h5><br>
+              <h5 class="bold inline">Bloco: </h5><h5 class="inline">{{ prisioneiro.bloco+', andar '+prisioneiro.andar }}</h5><br>
+              <h5 class="bold inline">Cela: </h5><h5 class="inline">{{ prisioneiro.cela }}</h5><br>
             </div>
             <div *ngSwitchCase="'servidores'">
               <h5 class="bold inline">CPF: </h5><h5 class="inline">{{ servidor.cpf }}</h5><br>
@@ -85,27 +89,27 @@
               <form [ngSwitch]="type">
                 <fieldset *ngSwitchCase="'unidades'">
                   <div class="form-group">
-                    <label>Nome</label>
-                    <input type="text" class="form-control" [(ngModel)]="unidade.nome" name="unidadeCodigo">
+                    <label class="m-0">Nome</label>
+                    <input type="text" class="form-control m-0" [(ngModel)]="unidade.nome" name="unidadeCodigo">
                   </div>
                   <div class="form-group">
-                    <label>Rua</label>
+                    <label class="m-0">Rua</label>
                     <input type="text" class="form-control" [(ngModel)]="unidade.rua" name="unidadeRua">
                   </div>
                   <div class="form-group">
-                    <label>Bairro</label>
+                    <label class="m-0">Bairro</label>
                     <input type="text" class="form-control" [(ngModel)]="unidade.bairro" name="unidadeBairro">
                   </div>
                   <div class="form-group">
-                    <label>Cidade</label>
+                    <label class="m-0">Cidade</label>
                     <input type="text" class="form-control" [(ngModel)]="unidade.cidade" name="unidadeCidade">
                   </div>
                   <div class="form-group">
-                    <label>Estado</label>
-                    <input type="text" class="form-control" [(ngModel)]="unidade.estado" name="unidadeEstado">
+                    <label class="m-0">UF</label>
+                    <input type="text" class="form-control" [(ngModel)]="unidade.uf" name="unidadeUF">
                   </div>
                   <div class="form-group">
-                    <label>CEP</label>
+                    <label class="m-0">CEP</label>
                     <input type="text" class="form-control" [(ngModel)]="unidade.cep" name="unidadeCep">
                   </div>
                   <div class="container">
@@ -117,15 +121,15 @@
                 </fieldset>
                 <fieldset *ngSwitchCase="'fornecedores'">
                   <div class="form-group">
-                    <label>CNPJ</label>
+                    <label class="m-0">CNPJ</label>
                     <input type="text" class="form-control" [(ngModel)]="fornecedor.cnpj" name="fornecedorCnpj">
                   </div>
                   <div class="form-group">
-                    <label>Nome da empresa</label>
+                    <label class="m-0">Nome da empresa</label>
                     <input type="text" class="form-control" [(ngModel)]="fornecedor.nome_empresa" name="fornecedorEmpresa">
                   </div>
                   <div class="form-group">
-                    <label>Item efertado</label>
+                    <label class="m-0">Item efertado</label>
                     <input type="text" class="form-control" [(ngModel)]="fornecedor.item_ofertado" name="fornecedorOfertado">
                   </div>
                   <div class="container">
@@ -137,11 +141,11 @@
                 </fieldset>
                 <fieldset *ngSwitchCase="'pavilhões'">
                   <div class="form-group">
-                    <label>Número</label>
+                    <label class="m-0">Número</label>
                     <input type="text" class="form-control" [(ngModel)]="pavilhao.numero" name="pavilhaoNumero">
                   </div>
                   <div class="form-group">
-                    <label>Função</label>
+                    <label class="m-0">Função</label>
                     <input type="text" class="form-control" [(ngModel)]="pavilhao.funcao" name="pavilhaoFuncao">
                   </div>
                   <div class="container">
@@ -153,11 +157,11 @@
                 </fieldset>
                 <fieldset *ngSwitchCase="'blocos'">
                   <div class="form-group">
-                    <label>Número</label>
+                    <label class="m-0">Número</label>
                     <input type="text" class="form-control" [(ngModel)]="bloco.numero" name="blocoNumero">
                   </div>
                   <div class="form-group">
-                    <label>Andar</label>
+                    <label class="m-0">Andar</label>
                     <input type="text" class="form-control" [(ngModel)]="bloco.andar" name="blocoAndar">
                   </div>
                   <div class="container">
@@ -169,11 +173,11 @@
                 </fieldset>
                 <fieldset *ngSwitchCase="'celas'">
                   <div class="form-group">
-                    <label>Quantidade máxima</label>
+                    <label class="m-0">Quantidade máxima</label>
                     <input type="text" class="form-control" [(ngModel)]="cela.quantidade_max" name="celaMax">
                   </div>
                   <div class="form-group">
-                    <label>Tipo</label>
+                    <label class="m-0">Tipo</label>
                     <input type="text" class="form-control" [(ngModel)]="cela.tipo" name="celaTipo">
                   </div>
                   <div class="container">
@@ -185,23 +189,23 @@
                 </fieldset>
                 <fieldset *ngSwitchCase="'prisioneiros'">
                   <div class="form-group">
-                    <label>CPF</label>
+                    <label class="m-0">CPF</label>
                     <input type="text" class="form-control" [(ngModel)]="prisioneiro.cpf" name="prisioneiroCpf">
                   </div>
                   <div class="form-group">
-                    <label>Data de nascimento</label>
+                    <label class="m-0">Data de nascimento</label>
                     <input type="text" class="form-control" [(ngModel)]="prisioneiro.data_nascimento" name="prisioneiroData">
                   </div>
                   <div class="form-group">
-                    <label>Observações médicas</label>
+                    <label class="m-0">Observações médicas</label>
                     <input type="text" class="form-control" [(ngModel)]="prisioneiro.observacoes_medicas" name="prisioneiroObs">
                   </div>
                   <div class="form-group">
-                    <label>Nome</label>
+                    <label class="m-0">Nome</label>
                     <input type="text" class="form-control" [(ngModel)]="prisioneiro.nome" name="prisioneiroNome">
                   </div>
                   <div class="form-group">
-                    <label>RG</label>
+                    <label class="m-0">RG</label>
                     <input type="text" class="form-control" [(ngModel)]="prisioneiro.rg" name="prisioneiroRg">
                   </div>
                   <div class="container">
@@ -213,23 +217,23 @@
                 </fieldset>
                 <fieldset *ngSwitchCase="'servidores'">
                   <div class="form-group">
-                    <label>CPF</label>
+                    <label class="m-0">CPF</label>
                     <input type="text" class="form-control" [(ngModel)]="servidor.cpf" name="servidoresCpf">
                   </div>
                   <div class="form-group">
-                    <label>Data de nascimento</label>
+                    <label class="m-0">Data de nascimento</label>
                     <input type="text" class="form-control" [(ngModel)]="servidor.data_nascimento" name="servidoresData">
                   </div>
                   <div class="form-group">
-                    <label>Cargo</label>
+                    <label class="m-0">Cargo</label>
                     <input type="text" class="form-control" [(ngModel)]="servidor.cargo" name="servidoresCargo">
                   </div>
                   <div class="form-group">
-                    <label>Nome</label>
+                    <label class="m-0">Nome</label>
                     <input type="text" class="form-control" [(ngModel)]="servidor.nome" name="servidoresNome">
                   </div>
                   <div class="form-group">
-                    <label>Salário</label>
+                    <label class="m-0">Salário</label>
                     <input type="text" class="form-control" [(ngModel)]="servidor.salario" name="servidoresSalario">
                   </div>
                   <div class="container">
@@ -241,23 +245,23 @@
                 </fieldset>
                 <fieldset *ngSwitchCase="'familiares'">
                   <div class="form-group">
-                    <label>CPF</label>
+                    <label class="m-0">CPF</label>
                     <input type="text" class="form-control" [(ngModel)]="familiar.cpf" name="familiarCpf">
                   </div>
                   <div class="form-group">
-                    <label>Data de nascimento</label>
+                    <label class="m-0">Data de nascimento</label>
                     <input type="text" class="form-control" [(ngModel)]="familiar.data_nascimento" name="familiarData">
                   </div>
                   <div class="form-group">
-                    <label>RG</label>
+                    <label class="m-0">RG</label>
                     <input type="text" class="form-control"  [(ngModel)]="familiar.rg" name="familiarRg">
                   </div>
                   <div class="form-group">
-                    <label>Nome</label>
+                    <label class="m-0">Nome</label>
                     <input type="text" class="form-control"  [(ngModel)]="familiar.nome" name="familiarNome">
                   </div>
                   <div class="form-group">
-                    <label>Parentesco</label>
+                    <label class="m-0">Parentesco</label>
                     <input type="text" class="form-control"  [(ngModel)]="familiar.parentesco" name="familiarParentesco">
                   </div>
                   <div class="container">
@@ -269,23 +273,23 @@
                 </fieldset>
                 <fieldset *ngSwitchCase="'penas'">
                   <div class="form-group">
-                    <label>Codigo penal</label>
+                    <label class="m-0">Codigo penal</label>
                     <input type="text" class="form-control" [(ngModel)]="pena.codigo_penal" name="penaCodigoPenal">
                   </div>
                   <div class="form-group">
-                    <label>Área judicial</label>
+                    <label class="m-0">Área judicial</label>
                     <input type="text" class="form-control" [(ngModel)]="pena.area_judicial" name="penaAreaJudicial">
                   </div>
                   <div class="form-group">
-                    <label>Descrição</label>
+                    <label class="m-0">Descrição</label>
                     <input type="text" class="form-control" [(ngModel)]="pena.descricao" name="penaDescricao">
                   </div>
                   <div class="form-group">
-                    <label>Duração mínima</label>
+                    <label class="m-0">Duração mínima</label>
                     <input type="text" class="form-control" [(ngModel)]="pena.duracao_min" name="penaDuracaoMin">
                   </div>
                   <div class="form-group">
-                    <label>Duração máxima</label>
+                    <label class="m-0">Duração máxima</label>
                     <input type="text" class="form-control" [(ngModel)]="pena.duracao_max" name="penaDuracaoMax">
                   </div>
                   <div class="container">

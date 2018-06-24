@@ -18,15 +18,16 @@ export class DetailsComponent implements OnInit {
   type:string;
   obj:any[];
   value = 'um valor aí';
-  bloco = { numero:0, andar:0 };
-  cela = { codigo:0, quantidade_max:0, tipo:''};
+  bloco = { numero:'', andar:'' };
+  cela = { codigo:'', quantidade_max:'', tipo:''};
   familiar = { cpf:'', data_nascimento: '', rg:'', nome:'', parentesco:'' };
   fornecedor = { cnpj:'', nome_empresa:'', item_ofertado:'' };
-  pavilhao = { numero:0, funcao:'' };
-  servidor = { cpf:'', data_nascimento:'', cargo:'', nome:'', salario:0 };
-  unidade = { codigo:0, nome:'', rua:'', bairro:'', cidade:'', estado:'', cep:'' };
+  pavilhao = { numero:'', funcao:'' };
+  servidor = { cpf:'', data_nascimento:'', cargo:'', nome:'', salario:'' };
+  unidade = { codigo:'', nome:'', rua:'', bairro:'', cidade:'', estado:'', cep:'' };
   prisioneiro = { cpf:'', data_nascimento:'', observacoes_medicas:'', nome:'', rg:'' };
-  pena = { codigo_penal:'', area_judicial:'', descricao:'', duracao_min:0, duracao_max:0 };
+  pena = { codigo_penal:'', area_judicial:'', descricao:'', duracao_min:'', duracao_max:'' };
+  details:any = {};
 
   constructor(
     private itemsService: ItemsService,
@@ -38,51 +39,43 @@ export class DetailsComponent implements OnInit {
       this.type = type;
       this.showDetails = false;
     });
-  }
-
-  set(key:any){ //usar details service pra dar get nessa key aqui dentro
-    /*
-    let obj = {
-      chave: 'artigo_penal',
-      artigo_penal:555,
-      area_judicial:10,
-      descricao:'bonito',
-      duracao_min:5,
-      duracao_max:10
-    };
-    this.keys = Object.keys(obj);
-    this.values = Object.values(obj);
-    */
-    switch(this.type) {
-      case 'unidades':
-        this.unidade = this.detailsService.get('teste');
+    this.detailsService.detailsChanges.subscribe(details => {
+      this.details = details[0]; //no futuro, acessar no html só de details, em vez de bloco, cela, etc
+      console.log(this.details);
+      switch(this.type) {
+        case 'unidades':
+        this.unidade = this.details;
         break;
       case 'fornecedores':
-        this.fornecedor = this.detailsService.get('teste');
+        this.fornecedor = this.details;
         break;
       case 'pavilhões':
-        this.pavilhao = this.detailsService.get('teste');
+        this.pavilhao = this.details;
         break;
       case 'blocos':
-        this.bloco = this.detailsService.get('teste');
+        this.bloco = this.details;
         break;
       case 'celas':
-        this.cela = this.detailsService.get('teste');
+        this.cela = this.details;
         break;
       case 'prisioneiros':
-        this.prisioneiro = this.detailsService.get('teste');
+        this.prisioneiro = this.details;
         break;
       case 'familiares':
-        this.familiar = this.detailsService.get('teste');
+        this.familiar = this.details;
         break;
       case 'servidores':
-        this.servidor = this.detailsService.get('teste');
+        this.servidor = this.details;
         break;
       case 'penas':
-        this.pena = this.detailsService.get('teste');
-        break;            
-      default:
-    }
+        this.pena = this.details;
+        break;
+      }
+    });
+  }
+
+  set(item:any){
+    this.detailsService.get(item);
   }
 
   close() {
@@ -107,15 +100,15 @@ export class DetailsComponent implements OnInit {
   }
 
   clear() {
-    this.bloco = { numero:0, andar:0 };
-    this.cela = { codigo:0, quantidade_max:0, tipo:''};
+    this.bloco = { numero:'', andar:'' };
+    this.cela = { codigo:'', quantidade_max:'', tipo:''};
     this.familiar = { cpf:'', data_nascimento: '', rg:'', nome:'', parentesco:'' };
     this.fornecedor = { cnpj:'', nome_empresa:'', item_ofertado:'' };
-    this.pavilhao = { numero:0, funcao:'' };
-    this.servidor = { cpf:'', data_nascimento:'', cargo:'', nome:'', salario:0 };
-    this.unidade = { codigo:0, nome:'', rua:'', bairro:'', cidade:'', estado:'', cep:'' };
+    this.pavilhao = { numero:'', funcao:'' };
+    this.servidor = { cpf:'', data_nascimento:'', cargo:'', nome:'', salario:'' };
+    this.unidade = { codigo:'', nome:'', rua:'', bairro:'', cidade:'', estado:'', cep:'' };
     this.prisioneiro = { cpf:'', data_nascimento:'', observacoes_medicas:'', nome:'', rg:'' };
-    this.pena = { codigo_penal:'', area_judicial:'', descricao:'', duracao_min:0, duracao_max:0 };
+    this.pena = { codigo_penal:'', area_judicial:'', descricao:'', duracao_min:'', duracao_max:'' };
   }
 
   save() {

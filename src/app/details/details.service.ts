@@ -1,20 +1,90 @@
 import { Injectable, Output, EventEmitter } from "@angular/core";
 import { ItemsService } from "../items/items.service";
+import { HttpClient, HttpParams } from "@angular/common/http";
 
 @Injectable()
 export class DetailsService {
 
   @Output() detailsChanges: EventEmitter<any> = new EventEmitter();
 
+  ROOT_URL:string;
+
   details:any;
   type:string;
-
-  constructor(private itemsService: ItemsService) { 
+  
+  constructor(
+    private itemsService: ItemsService, 
+    private http: HttpClient 
+  ) { 
     this.itemsService.change.subscribe(type => {
       this.type = type;
     });
+    this.ROOT_URL  = itemsService.ROOT_URL;//Entidade no plural/criar, alterar, listar, buscar, remover
   }
 
+  get(item:any) {
+    const type = this.type;
+    let params = new HttpParams().set(item.chave, item[item.chave]);
+    switch(type) {
+      case 'unidades':
+        this.http.get<any>(this.ROOT_URL + '/unidades/buscar', {params: params}).subscribe(details => {
+          this.details = details;
+          this.detailsChanges.emit(this.details);
+        });
+        break;
+      case 'fornecedores':
+        this.http.get<any>(this.ROOT_URL + '/fornecedores/buscar', {params: params}).subscribe(details => {
+          this.details = details;
+          this.detailsChanges.emit(this.details);
+        });
+        break;
+      case 'pavilhões':
+        this.http.get<any>(this.ROOT_URL + '/pavilhoes/buscar', {params: params}).subscribe(details => {
+          this.details = details;
+          this.detailsChanges.emit(this.details);
+        });
+        break;
+      case 'blocos':
+        this.http.get<any>(this.ROOT_URL + '/blocos/buscar', {params: params}).subscribe(details => {
+          this.details = details;
+          this.detailsChanges.emit(this.details);
+        });
+        break;
+      case 'celas':
+        this.http.get<any>(this.ROOT_URL + '/celas/buscar', {params: params}).subscribe(details => {
+          this.details = details;
+          this.detailsChanges.emit(this.details);
+        });
+        break;
+      case 'prisioneiros':
+        this.http.get<any>(this.ROOT_URL + '/prisioneiros/buscar', {params: params}).subscribe(details => {
+          this.details = details;
+          this.detailsChanges.emit(this.details);
+        });
+        break;
+      case 'familiares':
+        this.http.get<any>(this.ROOT_URL + '/familiares/buscar', {params: params}).subscribe(details => {
+          this.details = details;
+          this.detailsChanges.emit(this.details);
+        });
+        break;
+      case 'servidores':
+        this.http.get<any>(this.ROOT_URL + '/servidores/buscar', {params: params}).subscribe(details => {
+          this.details = details;
+          this.detailsChanges.emit(this.details);
+        });
+        break;
+      case 'penas':
+        this.http.get<any>(this.ROOT_URL + '/penas/buscar', {params: params}).subscribe(details => {
+          this.details = details;
+          this.detailsChanges.emit(this.details);
+        });
+        break;            
+      default:
+    }
+  }
+
+  /*
   get(key:any) {
     switch(this.type) {
       case 'unidades':
@@ -48,7 +118,6 @@ export class DetailsService {
     }
     return this.details;
   }
-  /*
   get(key:any) {
     const type = this.type;
     let params = new HttpParams().set('userId', userid);

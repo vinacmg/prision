@@ -10,7 +10,7 @@ export class ItemsService {
   @Output() itemChanges: EventEmitter<Array<any>> = new EventEmitter();
   @Output() fatherChanges: EventEmitter<string> = new EventEmitter();
 
-  readonly ROOT_URL = 'https://jsonplaceholder.typicode.com';
+  readonly ROOT_URL = 'http://localhost/prision/bd-api';
   
   type:string;
   itemsObs:Observable<Array<any>>;
@@ -22,6 +22,7 @@ export class ItemsService {
     this.type = type;
     this.change.emit(this.type);
     //faz get usando type especificado
+    this.getItems();
   }
 
   fornecedoresByUnidade(codigo: any) {
@@ -56,31 +57,67 @@ export class ItemsService {
   getItems() {
     switch(this.type) {
       case 'unidades':
-        this.itemsObs = this.http.get<any[]>(this.ROOT_URL + '/posts');
+        this.http.get<any[]>(this.ROOT_URL + '/unidades/listar').subscribe(items => {
+          this.items = items;
+          this.items.map(item => item.chave = 'codigo');
+          this.itemChanges.emit(this.items);
+        });
         break;
       case 'fornecedores':
-        this.itemsObs = this.http.get<any[]>(this.ROOT_URL + '/posts');
+        this.http.get<any[]>(this.ROOT_URL + '/fornecedores/listar').subscribe(items => {
+          this.items = items;
+          this.items.map(item => item.chave = 'cnpj');
+          this.itemChanges.emit(this.items);
+        });
         break;
       case 'pavilhões':
-        this.itemsObs = this.http.get<any[]>(this.ROOT_URL + '/posts');
+        this.http.get<any[]>(this.ROOT_URL + '/pavilhoes/listar').subscribe(items => {
+          this.items = items;
+          this.items.map(item => item.chave = 'id_pavilhao');
+          this.itemChanges.emit(this.items);
+        });
         break;
       case 'blocos':
-        this.itemsObs = this.http.get<any[]>(this.ROOT_URL + '/posts');
+        this.http.get<any[]>(this.ROOT_URL + '/blocos/listar').subscribe(items => {
+          this.items = items;
+          this.items.map(item => item.chave = 'id_bloco');
+          this.itemChanges.emit(this.items);
+        });
         break;
       case 'celas':
-        this.itemsObs = this.http.get<any[]>(this.ROOT_URL + '/posts');
+        this.http.get<any[]>(this.ROOT_URL + '/celas/listar').subscribe(items => {
+          this.items = items;
+          this.items.map(item => item.chave = 'id_cela');
+          this.itemChanges.emit(this.items);
+        });
         break;
       case 'prisioneiros':
-        this.itemsObs = this.http.get<any[]>(this.ROOT_URL + '/posts');
+        this.http.get<any[]>(this.ROOT_URL + '/prisioneiros/listar').subscribe(items => {
+          this.items = items;
+          this.items.map(item => item.chave = 'cpf');
+          this.itemChanges.emit(this.items);
+        });
         break;
       case 'familiares':
-        this.itemsObs = this.http.get<any[]>(this.ROOT_URL + '/posts');
+        this.http.get<any[]>(this.ROOT_URL + '/familiares/listar').subscribe(items => {
+          this.items = items;
+          this.items.map(item => item.chave = 'cpf');
+          this.itemChanges.emit(this.items);
+        });
         break;
       case 'servidores':
-       this.itemsObs = this.http.get<any[]>(this.ROOT_URL + '/posts');
+        this.http.get<any[]>(this.ROOT_URL + '/servidores/listar').subscribe(items => {
+          this.items = items;
+          this.items.map(item => item.chave = 'cpf');
+          this.itemChanges.emit(this.items);
+        });
         break;
       case 'penas':
-        this.itemsObs = this.http.get<any[]>(this.ROOT_URL + '/posts');
+        this.http.get<any[]>(this.ROOT_URL + '/penas/listar').subscribe(items => {
+          this.items = items;
+          this.items.map(item => item.chave = 'codigo_penal');
+          this.itemChanges.emit(this.items);
+        });
         break;            
       default:
     }

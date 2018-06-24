@@ -18,35 +18,7 @@ export class ItemsComponent implements OnInit {
 
   active: any;
   
-  items:Array<any> = [{
-    chave: 'artigo_penal',
-    artigo_penal:555,
-    area_judicial:10,
-    descricao:'bonito',
-    duracao_min:5,
-    duracao_max:10
-  }, {
-    chave: 'artigo_penal',
-    artigo_penal:564,
-    area_judicial:12,
-    descricao:'feio',
-    duracao_min:5,
-    duracao_max:10
-  },{
-    chave: 'artigo_penal',
-    artigo_penal:789,
-    area_judicial:10,
-    descricao:'bonito',
-    duracao_min:5,
-    duracao_max:10
-  }, {
-    chave: 'artigo_penal',
-    artigo_penal:223,
-    area_judicial:12,
-    descricao:'feio',
-    duracao_min:5,
-    duracao_max:10
-  }]
+  items:Array<any> = []
   
   constructor(
     private itemsService: ItemsService
@@ -69,40 +41,9 @@ export class ItemsComponent implements OnInit {
 
   select(item:any) {
     this.active = item;
-    
     this.details.setAddingItem(false);
     this.details.showDetails = true;
-
-    switch(this.type) {
-      case 'unidades':
-        this.details.set(this.active.chave);      
-        break;
-      case 'fornecedores':
-        this.details.set(this.active.chave);   
-        break;
-      case 'pavilhões':
-        this.details.set(this.active.chave);    
-        break;
-      case 'blocos':
-        this.details.set(this.active.chave);
-        break;
-      case 'celas':
-        this.details.set(this.active.chave);     
-        break;
-      case 'prisioneiros':
-        this.details.set(this.active.chave);     
-        break;
-      case 'familiares':
-        this.details.set(this.active.chave);     
-        break;
-      case 'servidores':
-        this.details.set(this.active.chave);     
-        break;
-      case 'penas':
-        this.details.set(this.active.chave);     
-        break;            
-      default:
-    }
+    this.details.set(this.active);
   }
 
   newItem() {
