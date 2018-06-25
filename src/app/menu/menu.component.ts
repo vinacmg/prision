@@ -20,6 +20,7 @@ export class MenuComponent implements OnInit {
 
   select(option:string) {
     this.itemsService.setType(option);
+    this.itemsService.getItems();
   }
 
   setActive(active) {

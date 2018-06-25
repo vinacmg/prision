@@ -2,8 +2,24 @@
   <br>
   <span><h1>{{ (type | titlecase) + posTitle }}</h1></span>
   <br>
-  <div class="items">
-    <div class="list-group">
+  <div class="items" [ngSwitch]="type">
+    <div class="list-group" *ngSwitchCase="'pavilhões'">
+      <span class="list-group-item list-group-item-action"
+      *ngFor="let item of items"
+      [ngClass]="{'active': active === item}" 
+      (click)="select(item)">
+        {{ 'Unidade '+item.fk_unid_prisional+', Número '+item.numero}}
+      </span>
+    </div>
+    <div class="list-group" *ngSwitchCase="'blocos'">
+      <span class="list-group-item list-group-item-action"
+      *ngFor="let item of items"
+      [ngClass]="{'active': active === item}" 
+      (click)="select(item)">
+        {{ 'Pavilhão '+item.fk_numero_pavilhao+', Número '+item.numero}}
+      </span>
+    </div>
+    <div class="list-group" *ngSwitchDefault>
       <span class="list-group-item list-group-item-action"
       *ngFor="let item of items"
       [ngClass]="{'active': active === item}" 

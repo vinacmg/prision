@@ -1,15 +1,19 @@
 import { Injectable, Output, EventEmitter } from "@angular/core";
 import { ItemsService } from "../items/items.service";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 
 @Injectable()
 export class DetailsService {
 
   @Output() detailsChanges: EventEmitter<any> = new EventEmitter();
+  @Output() comboChanges: EventEmitter<any> = new EventEmitter();
+  @Output() checkmarkChanges: EventEmitter<any> = new EventEmitter();
 
   ROOT_URL:string;
 
   details:any;
+  combo:any;
+  checkmark:any;
   type:string;
   
   constructor(
@@ -20,6 +24,44 @@ export class DetailsService {
       this.type = type;
     });
     this.ROOT_URL  = itemsService.ROOT_URL;//Entidade no plural/criar, alterar, listar, buscar, remover
+  }
+
+  post(item: any) {
+    const headers = new HttpHeaders().append('Content-Type', 'application/json; charset=utf-8');
+    switch(this.type) {
+      case 'unidades':
+        this.http.post(this.ROOT_URL + '/unidades/criar', item,{ headers: headers}).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+      case 'fornecedores':
+        this.http.post(this.ROOT_URL + '/fornecedores/criar', item, { headers: headers}).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+      case 'pavilhões':
+        this.http.post<any>(this.ROOT_URL + '/pavilhoes/criar', item);
+        break;
+      case 'blocos':
+        this.http.post<any>(this.ROOT_URL + '/blocos/criar', item);
+        break;
+      case 'celas':
+        this.http.post<any>(this.ROOT_URL + '/celas/criar', item);
+        break;
+      case 'prisioneiros':
+        this.http.post<any>(this.ROOT_URL + '/prisioneiros/criar', item);
+        break;
+      case 'familiares':
+        this.http.post<any>(this.ROOT_URL + '/familiares/criar', item);
+        break;
+      case 'servidores':
+        this.http.post<any>(this.ROOT_URL + '/servidores/criar', item);
+        break;
+      case 'penas':
+        this.http.post<any>(this.ROOT_URL + '/penas/criar', item);
+        break;            
+      default:
+    }
   }
 
   get(item:any) {
@@ -39,13 +81,13 @@ export class DetailsService {
         });
         break;
       case 'pavilhões':
-        this.http.get<any>(this.ROOT_URL + '/pavilhoes/buscar', {params: params}).subscribe(details => {
+        this.http.get<any>(this.ROOT_URL + '/pavilhoes/buscar', {params: new HttpParams().set('fk_unid_prisional', item['fk_unid_prisional']).set('numero', item['numero'])}).subscribe(details => {
           this.details = details;
           this.detailsChanges.emit(this.details);
         });
         break;
       case 'blocos':
-        this.http.get<any>(this.ROOT_URL + '/blocos/buscar', {params: params}).subscribe(details => {
+        this.http.get<any>(this.ROOT_URL + '/blocos/buscar', {params: new HttpParams().set('fk_numero_pavilhao', item['fk_numero_pavilhao']).set('numero', item['numero'])}).subscribe(details => {
           this.details = details;
           this.detailsChanges.emit(this.details);
         });
@@ -59,7 +101,10 @@ export class DetailsService {
       case 'prisioneiros':
         this.http.get<any>(this.ROOT_URL + '/prisioneiros/buscar', {params: params}).subscribe(details => {
           this.details = details;
-          this.detailsChanges.emit(this.details);
+          this.http.get<any>(this.ROOT_URL + '/prisioneiros/penas', {params: new HttpParams().set('fk_prisioneiro', item[item.chave])}).subscribe(penas => {
+            this.details.penas = penas;
+            this.detailsChanges.emit(this.details);
+          });
         });
         break;
       case 'familiares':
@@ -84,6 +129,65 @@ export class DetailsService {
     }
   }
 
+  getCombo() {
+    switch(this.type) {
+      case 'pavilhões':
+        this.http.get<any[]>(this.ROOT_URL + '/unidades/listar').subscribe(items => {
+          this.combo = items;
+          this.combo.map(item => item.chave = 'id_pavilhao');
+          this.comboChanges.emit(this.combo);
+        });
+        break;
+      case 'blocos':
+        this.http.get<any[]>(this.ROOT_URL + '/pavilhoes/listar').subscribe(items => {
+          this.combo = items;
+          this.combo.map(item => item.chave = 'id_bloco');
+          this.comboChanges.emit(this.combo);
+        });
+        break;
+      case 'celas':
+        this.http.get<any[]>(this.ROOT_URL + '/blocos/listar').subscribe(items => {
+          this.combo = items;
+          this.combo.map(item => item.chave = 'codigo');
+          this.comboChanges.emit(this.combo);
+        });
+        break;
+      case 'prisioneiros':
+        this.http.get<any[]>(this.ROOT_URL + '/celas/listar').subscribe(items => {
+          this.combo = items;
+          this.combo.map(item => item.chave = 'codigo');
+          console.log(this.combo);
+          this.comboChanges.emit(this.combo);
+        });
+        break;
+      case 'familiares':
+        this.http.get<any[]>(this.ROOT_URL + '/prisioneiros/listar').subscribe(items => {
+          this.combo = items;
+          this.combo.map(item => item.chave = 'cpf');
+          this.comboChanges.emit(this.combo);
+        });
+        break;
+      case 'servidores':
+        this.http.get<any[]>(this.ROOT_URL + '/pavilhoes/listar').subscribe(items => {
+          this.combo = items;
+          this.combo.map(item => item.chave = 'cpf');
+          this.comboChanges.emit(this.combo);
+        });
+        break;            
+      default:
+    }
+  }
+  /*
+  getCheckMark() {
+    switch(this.type) {
+      case 'prisioneiros':
+        this.http.get<any[]>(this.ROOT_URL + '/penas/listar').subscribe(items => {
+          this.checkmark = items;
+          this.checkmarkChanges.emit(this.checkmark);
+        });
+    }
+  }
+  */
   /*
   get(key:any) {
     switch(this.type) {

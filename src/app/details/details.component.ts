@@ -11,21 +11,19 @@ export class DetailsComponent implements OnInit {
 
   showDetails: boolean = false;
   addingItem: boolean = false;
-  keys = [];
-  values = [];
-  test = [1,2,3];
+
+  combo:any[] = [];
   selected: any;
   type:string;
-  obj:any[];
   value = 'um valor aí';
-  bloco = { numero:'', andar:'' };
-  cela = { codigo:'', quantidade_max:'', tipo:''};
+  bloco = { id_bloco:'', numero:'', andar:'' };
+  cela = { id_cela:'', codigo:'', quantidade_max:'', tipo:''};
   familiar = { cpf:'', data_nascimento: '', rg:'', nome:'', parentesco:'' };
   fornecedor = { cnpj:'', nome_empresa:'', item_ofertado:'' };
   pavilhao = { numero:'', funcao:'' };
   servidor = { cpf:'', data_nascimento:'', cargo:'', nome:'', salario:'' };
   unidade = { codigo:'', nome:'', rua:'', bairro:'', cidade:'', estado:'', cep:'' };
-  prisioneiro = { cpf:'', data_nascimento:'', observacoes_medicas:'', nome:'', rg:'' };
+  prisioneiro = { cpf:'', data_nascimento:'', observacoes_medicas:'', nome:'', rg:'', cela:'', penas:[] };
   pena = { codigo_penal:'', area_judicial:'', descricao:'', duracao_min:'', duracao_max:'' };
   details:any = {};
 
@@ -72,6 +70,9 @@ export class DetailsComponent implements OnInit {
         break;
       }
     });
+    this.detailsService.comboChanges.subscribe(combo => {
+      this.combo = combo;
+    });
   }
 
   set(item:any){
@@ -95,20 +96,69 @@ export class DetailsComponent implements OnInit {
     this.itemsService.setType(customOption);
   }
 
-  fornecedoresByUnidade(codigo) {
-    this.itemsService.fornecedoresByUnidade(codigo);
+  pavilhaoByUnidade() {
+    let codigo = this.unidade.codigo;
+    this.itemsService.pavilhaoByUnidade(codigo);
+  }
+
+  celasByBlocos() {
+    this.itemsService.celasByBlocos(this.bloco['numero'], this.bloco['fk_numero_pavilhao']);
+  }
+
+  prisioneirosByCela() {
+    this.itemsService.prisioneirosByCela(this.cela['codigo']);
+  }
+
+  getCombo() {
+    this.detailsService.getCombo();
+  }
+  
+  console(message) {
+    console.log(message);
   }
 
   clear() {
-    this.bloco = { numero:'', andar:'' };
-    this.cela = { codigo:'', quantidade_max:'', tipo:''};
+    this.bloco = { id_bloco:'', numero:'', andar:'' };
+    this.cela = { id_cela:'', codigo:'', quantidade_max:'', tipo:''};
     this.familiar = { cpf:'', data_nascimento: '', rg:'', nome:'', parentesco:'' };
     this.fornecedor = { cnpj:'', nome_empresa:'', item_ofertado:'' };
     this.pavilhao = { numero:'', funcao:'' };
     this.servidor = { cpf:'', data_nascimento:'', cargo:'', nome:'', salario:'' };
     this.unidade = { codigo:'', nome:'', rua:'', bairro:'', cidade:'', estado:'', cep:'' };
-    this.prisioneiro = { cpf:'', data_nascimento:'', observacoes_medicas:'', nome:'', rg:'' };
+    this.prisioneiro = { cpf:'', data_nascimento:'', observacoes_medicas:'', nome:'', rg:'', cela:'', penas:[] };
     this.pena = { codigo_penal:'', area_judicial:'', descricao:'', duracao_min:'', duracao_max:'' };
+  }
+
+  post() {
+    switch(this.type) {
+      case 'unidades':
+      this.detailsService.post(this.unidade);
+      break;
+    case 'fornecedores':
+      this.detailsService.post(this.fornecedor);
+      break;
+    case 'pavilhões':
+      this.detailsService.post(this.pavilhao);
+      break;
+    case 'blocos':
+    this.detailsService.post(this.bloco);
+      break;
+    case 'celas':
+    this.detailsService.post(this.cela);
+      break;
+    case 'prisioneiros':
+    this.detailsService.post(this.prisioneiro);
+      break;
+    case 'familiares':
+    this.detailsService.post(this.familiar);
+      break;
+    case 'servidores':
+      this.detailsService.post(this.servidor);
+      break;
+    case 'penas':
+      this.detailsService.post(this.pena);
+      break;
+    }
   }
 
   save() {
