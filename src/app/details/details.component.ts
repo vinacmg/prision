@@ -11,7 +11,7 @@ export class DetailsComponent implements OnInit {
 
   showDetails: boolean = false;
   addingItem: boolean = false;
-
+  new: boolean = false;
   combo:any[] = [];
   selected: any;
   type:string;
@@ -36,6 +36,7 @@ export class DetailsComponent implements OnInit {
     this.itemsService.change.subscribe(type => {
       this.type = type;
       this.showDetails = false;
+      this.detailsService.getCombo();
     });
     this.detailsService.detailsChanges.subscribe(details => {
       this.details = details[0]; //no futuro, acessar no html só de details, em vez de bloco, cela, etc
@@ -82,6 +83,7 @@ export class DetailsComponent implements OnInit {
   close() {
     this.setAddingItem(false);
     this.showDetails = false;
+    this.new = false;
   }
 
   setAddingItem(value: boolean) {
@@ -130,39 +132,106 @@ export class DetailsComponent implements OnInit {
   }
 
   post() {
-    switch(this.type) {
-      case 'unidades':
-      this.detailsService.post(this.unidade);
-      break;
-    case 'fornecedores':
-      this.detailsService.post(this.fornecedor);
-      break;
-    case 'pavilhões':
-      this.detailsService.post(this.pavilhao);
-      break;
-    case 'blocos':
-    this.detailsService.post(this.bloco);
-      break;
-    case 'celas':
-    this.detailsService.post(this.cela);
-      break;
-    case 'prisioneiros':
-    this.detailsService.post(this.prisioneiro);
-      break;
-    case 'familiares':
-    this.detailsService.post(this.familiar);
-      break;
-    case 'servidores':
-      this.detailsService.post(this.servidor);
-      break;
-    case 'penas':
-      this.detailsService.post(this.pena);
-      break;
+    if(this.new) {
+      switch(this.type) {
+        case 'unidades':
+        this.detailsService.add(this.unidade);
+        break;
+      case 'fornecedores':
+        this.detailsService.add(this.fornecedor);
+        break;
+      case 'pavilhões':
+        this.detailsService.add(this.pavilhao);
+        break;
+      case 'blocos':
+      this.detailsService.add(this.bloco);
+        break;
+      case 'celas':
+      this.detailsService.add(this.cela);
+        break;
+      case 'prisioneiros':
+      this.detailsService.add(this.prisioneiro);
+        break;
+      case 'familiares':
+      this.detailsService.add(this.familiar);
+        break;
+      case 'servidores':
+        this.detailsService.add(this.servidor);
+        break;
+      case 'penas':
+        this.detailsService.add(this.pena);
+        break;
+      }
+      this.addingItem = false;
+      this.showDetails = false;
+      this.new = false;
+    } else {
+      switch(this.type) {
+        case 'unidades':
+        this.detailsService.alter(this.unidade);
+        break;
+      case 'fornecedores':
+        this.detailsService.alter(this.fornecedor);
+        break;
+      case 'pavilhões':
+        this.detailsService.alter(this.pavilhao);
+        break;
+      case 'blocos':
+      this.detailsService.alter(this.bloco);
+        break;
+      case 'celas':
+      this.detailsService.alter(this.cela);
+        break;
+      case 'prisioneiros':
+      this.detailsService.alter(this.prisioneiro);
+        break;
+      case 'familiares':
+      this.detailsService.alter(this.familiar);
+        break;
+      case 'servidores':
+        this.detailsService.alter(this.servidor);
+        break;
+      case 'penas':
+        this.detailsService.alter(this.pena);
+        break;
+      }
+      this.addingItem = false;
+      this.showDetails = false;
     }
+    this.clear();
   }
 
-  save() {
-    //coloca no banco e 
+  delete() {
+    switch(this.type) {
+      case 'unidades':
+      this.detailsService.delete(this.unidade);
+      break;
+    case 'fornecedores':
+      this.detailsService.delete(this.fornecedor);
+      break;
+    case 'pavilhões':
+      this.detailsService.delete(this.pavilhao);
+      break;
+    case 'blocos':
+    this.detailsService.delete(this.bloco);
+      break;
+    case 'celas':
+    this.detailsService.delete(this.cela);
+      break;
+    case 'prisioneiros':
+    this.detailsService.delete(this.prisioneiro);
+      break;
+    case 'familiares':
+    this.detailsService.delete(this.familiar);
+      break;
+    case 'servidores':
+      this.detailsService.delete(this.servidor);
+      break;
+    case 'penas':
+      this.detailsService.delete(this.pena);
+      break;
+    }
+    this.showDetails = false;
     this.clear();
   }
 

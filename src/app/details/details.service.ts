@@ -26,44 +26,211 @@ export class DetailsService {
     this.ROOT_URL  = itemsService.ROOT_URL;//Entidade no plural/criar, alterar, listar, buscar, remover
   }
 
-  post(item: any) {
-    const headers = new HttpHeaders().append('Content-Type', 'application/json; charset=utf-8');
+  add(item: any) {
+    /*
+    let params = new HttpParams().set('nome', 'teste2')
+    .set('tipo_logradouro', 'teste2')
+    .set('logradouro', 'teste2')
+    .set('num', '12')
+    .set('bairro', 'teste2')
+    .set('cep', '111')
+    .set('cidade', 'teste2')
+    .set('uf', 'teste2');
+    */
+    let httpParams = new HttpParams();
+    Object.keys(item).forEach(function (key) {
+        httpParams = httpParams.append(key, item[key]);
+    });
+
     switch(this.type) {
       case 'unidades':
-        this.http.post(this.ROOT_URL + '/unidades/criar', item,{ headers: headers}).subscribe(resp => {
+        this.http.post(this.ROOT_URL + '/unidades/criar', httpParams).subscribe(resp => {
           console.log(resp);
         });
         break;
       case 'fornecedores':
-        this.http.post(this.ROOT_URL + '/fornecedores/criar', item, { headers: headers}).subscribe(resp => {
+        this.http.post(this.ROOT_URL + '/fornecedores/criar', httpParams).subscribe(resp => {
           console.log(resp);
         });
         break;
       case 'pavilhões':
-        this.http.post<any>(this.ROOT_URL + '/pavilhoes/criar', item);
+        this.http.post<any>(this.ROOT_URL + '/pavilhoes/criar', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
         break;
       case 'blocos':
-        this.http.post<any>(this.ROOT_URL + '/blocos/criar', item);
+        let custom = new HttpParams().set('fk_codigo_unidade', item['chave'].slice(-1)[0])
+          .set('fk_numero_pavilhao', item['chave'][0])
+          .set('funcao', item['funcao'])
+          .set('numero', item['numero'])
+          .set('andar', item['andar']);
+        this.http.post<any>(this.ROOT_URL + '/blocos/criar', custom).subscribe(resp => {
+          console.log(resp);
+        });
         break;
+        /*
       case 'celas':
-        this.http.post<any>(this.ROOT_URL + '/celas/criar', item);
+        this.http.post<any>(this.ROOT_URL + '/celas/criar', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
         break;
       case 'prisioneiros':
-        this.http.post<any>(this.ROOT_URL + '/prisioneiros/criar', item);
+        this.http.post<any>(this.ROOT_URL + '/prisioneiros/criar', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
         break;
       case 'familiares':
-        this.http.post<any>(this.ROOT_URL + '/familiares/criar', item);
+        this.http.post<any>(this.ROOT_URL + '/familiares/criar', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
         break;
       case 'servidores':
-        this.http.post<any>(this.ROOT_URL + '/servidores/criar', item);
+        this.http.post<any>(this.ROOT_URL + '/servidores/criar', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
         break;
       case 'penas':
-        this.http.post<any>(this.ROOT_URL + '/penas/criar', item);
+        this.http.post<any>(this.ROOT_URL + '/penas/criar', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
+        break;            
+      default:
+      */
+    }
+    this.itemsService.getItems();
+  }
+
+  alter(item) {
+    let httpParams = new HttpParams();
+    Object.keys(item).forEach(function (key) {
+        httpParams = httpParams.append(key, item[key]);
+    });
+
+    switch(this.type) {
+      case 'unidades':
+        this.http.post(this.ROOT_URL + '/unidades/alterar', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+      case 'fornecedores':
+        this.http.post(this.ROOT_URL + '/fornecedores/alterar', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+      case 'pavilhões':
+        let pav = new HttpParams().set('numero',item['numero'])
+          .set('funcao',item['funcao'])
+          .set('fk_unid_prisional', item['fk_unid_prisional']);
+        this.http.post<any>(this.ROOT_URL + '/pavilhoes/alterar', pav).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+      case 'blocos':
+        let bloco = new HttpParams().set('fk_codigo_unidade', item['fk_codigo_unidade'])
+          .set('fk_numero_pavilhao', item['fk_numero_pavilhao'])
+          .set('numero', item['numero'])
+          .set('andar', item['andar']);
+        this.http.post<any>(this.ROOT_URL + '/blocos/alterar', bloco).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+      /*
+      case 'celas':
+        this.http.post<any>(this.ROOT_URL + '/celas/alterar', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+      case 'prisioneiros':
+        this.http.post<any>(this.ROOT_URL + '/prisioneiros/alterar', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+      case 'familiares':
+        this.http.post<any>(this.ROOT_URL + '/familiares/alterar', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+      case 'servidores':
+        this.http.post<any>(this.ROOT_URL + '/servidores/alterar', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+      */
+      case 'penas':
+        this.http.post<any>(this.ROOT_URL + '/penas/alterar', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
         break;            
       default:
     }
+    this.itemsService.getItems();
   }
 
+  delete(item) {
+    let httpParams = new HttpParams();
+    Object.keys(item).forEach(function (key) {
+        httpParams = httpParams.append(key, item[key]);
+    });
+
+    switch(this.type) {
+      case 'unidades':
+        this.http.post(this.ROOT_URL + '/unidades/remover', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+      case 'fornecedores':
+        this.http.post(this.ROOT_URL + '/fornecedores/remover', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+      case 'pavilhões':
+        let pav = new HttpParams().set('numero',item['numero'])
+          .set('fk_unid_prisional', item['fk_unid_prisional']);
+        this.http.post<any>(this.ROOT_URL + '/pavilhoes/remover', pav).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+        
+      case 'blocos':
+        let bloco = new HttpParams()
+          .set('fk_numero_pavilhao', item['fk_numero_pavilhao'])
+          .set('numero', item['numero']);
+        this.http.post<any>(this.ROOT_URL + '/blocos/remover', bloco).subscribe(resp => {
+          console.log(resp);
+        });
+        break;/*
+      case 'celas':
+        this.http.post<any>(this.ROOT_URL + '/celas/remover', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+      case 'prisioneiros':
+        this.http.post<any>(this.ROOT_URL + '/prisioneiros/remover', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+      case 'familiares':
+        this.http.post<any>(this.ROOT_URL + '/familiares/remover', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+      case 'servidores':
+        this.http.post<any>(this.ROOT_URL + '/servidores/remover', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
+        break;
+      */
+      case 'penas':
+        this.http.post<any>(this.ROOT_URL + '/penas/remover', httpParams).subscribe(resp => {
+          console.log(resp);
+        });
+        break;            
+      default:
+    }
+
+    this.itemsService.getItems();
+  }
+  
   get(item:any) {
     const type = this.type;
     let params = new HttpParams().set(item.chave, item[item.chave]);
@@ -87,8 +254,11 @@ export class DetailsService {
         });
         break;
       case 'blocos':
+        console.log(item['numero']);
+        console.log(item['fk_numero_pavilhao']);
         this.http.get<any>(this.ROOT_URL + '/blocos/buscar', {params: new HttpParams().set('fk_numero_pavilhao', item['fk_numero_pavilhao']).set('numero', item['numero'])}).subscribe(details => {
           this.details = details;
+          console.log(details);
           this.detailsChanges.emit(this.details);
         });
         break;
@@ -141,7 +311,6 @@ export class DetailsService {
       case 'blocos':
         this.http.get<any[]>(this.ROOT_URL + '/pavilhoes/listar').subscribe(items => {
           this.combo = items;
-          this.combo.map(item => item.chave = 'id_bloco');
           this.comboChanges.emit(this.combo);
         });
         break;

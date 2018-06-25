@@ -44,7 +44,6 @@ export class ItemsComponent implements OnInit {
     this.details.setAddingItem(false);
     this.details.showDetails = true;
     this.details.set(this.active);
-    this.details.getCombo();
   }
 
   newItem() {
@@ -52,6 +51,7 @@ export class ItemsComponent implements OnInit {
     this.details.clear();
     this.details.showDetails = true;
     this.details.setAddingItem(true);
+    this.details.new = true;
   }
 
 }

@@ -9,7 +9,7 @@
         <div class="card-body pt-1">
             <div class="row justify-content-end">
                 <button type="button" class="btn btn-outline-primary col-2 mr-1" (click)="setAddingItem(true)">Editar</button>
-                <button type="button" class="btn btn-outline-warning">Deletar</button>
+                <button type="button" class="btn btn-outline-warning" (click)="delete()">Deletar</button>
             </div>
           <div [ngSwitch]="type">
             <div *ngSwitchCase="'unidades'" class="card-text">
@@ -40,12 +40,12 @@
             <div *ngSwitchCase="'blocos'">
               <h5 class="bold inline">Número: </h5><h5 class="inline">{{ bloco.numero }}</h5><br>
               <h5 class="bold inline">Andar: </h5><h5 class="inline">{{ bloco.andar }}</h5><br>
-              <h5 class="bold inline">Pavilhão: </h5><h5 class="inline">{{ bloco.numero_pavilhao }}</h5><br>
+              <h5 class="bold inline">Pavilhão (número): </h5><h5 class="inline">{{ bloco.fk_numero_pavilhao }}</h5><br>
               <h5 class="bold inline">Unidade: </h5><h5 class="inline">{{ bloco.nome_unidade+', código '+bloco.codigo_unidade }}</h5><br>
               <h5 class="bold inline">Cidade: </h5><h5 class="inline">{{ bloco.cidade }}</h5><br>
               <h5 class="bold inline">UF: </h5><h5 class="inline">{{ bloco.uf }}</h5><br>
               <h5 class="bold inline">CEP: </h5><h5 class="inline">{{ bloco.cep }}</h5><br>
-              <h5 class="bold link" (click)="celasByBlocos()">Celas</h5>
+              <!--<h5 class="bold link" (click)="celasByBlocos()">Celas</h5>-->
             </div>
             <div *ngSwitchCase="'celas'">
               <h5 class="bold inline">Código: </h5><h5 class="inline">{{ cela.codigo }}</h5><br>
@@ -144,7 +144,7 @@
                   </div>
                 </fieldset>
                 <fieldset *ngSwitchCase="'fornecedores'">
-                  <div class="form-group">
+                  <div class="form-group" *ngIf="new">
                     <label class="m-0">CNPJ</label>
                     <input type="text" class="form-control" [(ngModel)]="fornecedor.cnpj" name="fornecedorCnpj">
                   </div>
@@ -164,7 +164,7 @@
                   </div>
                 </fieldset>
                 <fieldset *ngSwitchCase="'pavilhões'">
-                  <div class="form-group">
+                  <div class="form-group" *ngIf="new">
                     <label class="m-0">Número</label>
                     <input type="text" class="form-control" [(ngModel)]="pavilhao.numero" name="pavilhaoNumero">
                   </div>
@@ -172,23 +172,23 @@
                     <label class="m-0">Função</label>
                     <input type="text" class="form-control" [(ngModel)]="pavilhao.funcao" name="pavilhaoFuncao">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" *ngIf="new">
                     <label class="m-0">Unidade</label>
                     <select class="form-control" 
-                      [(ngModel)]="pavilhao.codigo_unidade"
+                      [(ngModel)]="pavilhao.fk_unid_prisional"
                       name="pavilhaoUnidade">
                         <option *ngFor="let unidade of combo">{{ unidade.codigo }}</option>
                     </select>
                   </div>
                   <div class="container">
                     <div class="row justify-content-center">
-                      <button type="submit" class="btn btn-outline-success col-4 mr-1">Concluir</button>
+                      <button type="submit" class="btn btn-outline-success col-4 mr-1" (click)="post()">Concluir</button>
                       <button type="button" class="btn btn-outline-danger" (click)="close()">Cancelar</button>
                     </div>
                   </div>
                 </fieldset>
                 <fieldset *ngSwitchCase="'blocos'">
-                  <div class="form-group">
+                  <div class="form-group" *ngIf="new">
                     <label class="m-0">Número</label>
                     <input type="text" class="form-control" [(ngModel)]="bloco.numero" name="blocoNumero">
                   </div>
@@ -196,17 +196,17 @@
                     <label class="m-0">Andar</label>
                     <input type="text" class="form-control" [(ngModel)]="bloco.andar" name="blocoAndar">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" *ngIf="new">
                       <label class="m-0">Pavilhão</label>
                       <select class="form-control" 
-                        [(ngModel)]="bloco.pavilhao"
+                        [(ngModel)]="bloco.chave"
                         name="blocoPavilhao">
-                          <option *ngFor="let pavilhao of combo">{{ pavilhao.id_pavilhao }}</option>
+                          <option *ngFor="let pavilhao of combo">{{ pavilhao.numero+', unidade '+pavilhao.fk_unid_prisional }}</option>
                       </select>
                     </div>
                   <div class="container">
                     <div class="row justify-content-center">
-                      <button type="submit" class="btn btn-outline-success col-4 mr-1">Concluir</button>
+                      <button type="submit" class="btn btn-outline-success col-4 mr-1" (click)="post()">Concluir</button>
                       <button type="button" class="btn btn-outline-danger" (click)="close()">Cancelar</button>
                     </div>
                   </div>
@@ -222,13 +222,13 @@
                   </div>
                   <div class="container">
                     <div class="row justify-content-center">
-                      <button type="submit" class="btn btn-outline-success col-4 mr-1">Concluir</button>
+                      <button type="submit" class="btn btn-outline-success col-4 mr-1" (click)="post()">Concluir</button>
                       <button type="button" class="btn btn-outline-danger" (click)="close()">Cancelar</button>
                     </div>
                   </div>
                 </fieldset>
                 <fieldset *ngSwitchCase="'prisioneiros'">
-                  <div class="form-group">
+                  <div class="form-group" *ngIf="new">
                     <label class="m-0">CPF</label>
                     <input type="text" class="form-control" [(ngModel)]="prisioneiro.cpf" name="prisioneiroCpf">
                   </div>
@@ -248,6 +248,7 @@
                     <label class="m-0">RG</label>
                     <input type="text" class="form-control" [(ngModel)]="prisioneiro.rg" name="prisioneiroRg">
                   </div>
+                  
                   <div class="form-group">
                     <label class="m-0">Cela</label>
                     <select class="form-control" 
@@ -256,6 +257,7 @@
                       <option *ngFor="let cela of combo">{{ cela.codigo }}</option>
                     </select>
                   </div>
+                  <!--
                   <div class="form-group">
                     <p class="m-0">Penas</p>
                     <div class="form-check">
@@ -269,15 +271,16 @@
                       </label>
                     </div>
                   </div>
+                  -->
                   <div class="container">
                     <div class="row justify-content-center">
-                      <button type="submit" class="btn btn-outline-success col-4 mr-1">Concluir</button>
+                      <button type="submit" class="btn btn-outline-success col-4 mr-1" (click)="post()">Concluir</button>
                       <button type="button" class="btn btn-outline-danger" (click)="close()">Cancelar</button>
                     </div>
                   </div>
                 </fieldset>
                 <fieldset *ngSwitchCase="'servidores'">
-                  <div class="form-group">
+                  <div class="form-group" *ngIf="new">
                     <label class="m-0">CPF</label>
                     <input type="text" class="form-control" [(ngModel)]="servidor.cpf" name="servidoresCpf">
                   </div>
@@ -297,15 +300,23 @@
                     <label class="m-0">Salário</label>
                     <input type="text" class="form-control" [(ngModel)]="servidor.salario" name="servidoresSalario">
                   </div>
+                  <div class="form-group" *ngIf="new">
+                    <label class="m-0">Pavilhão</label>
+                    <select class="form-control" 
+                      [(ngModel)]="bloco.chave"
+                      name="servidorPavilhao">
+                        <option *ngFor="let pavilhao of combo">{{ pavilhao.numero+', unidade '+pavilhao.fk_unid_prisional }}</option>
+                    </select>
+                  </div>
                   <div class="container">
                     <div class="row justify-content-center">
-                      <button type="submit" class="btn btn-outline-success col-4 mr-1">Concluir</button>
+                      <button type="submit" class="btn btn-outline-success col-4 mr-1" (click)="post()">Concluir</button>
                       <button type="button" class="btn btn-outline-danger" (click)="close()">Cancelar</button>
                     </div>
                   </div>
                 </fieldset>
                 <fieldset *ngSwitchCase="'familiares'">
-                  <div class="form-group">
+                  <div class="form-group" *ngIf="new">
                     <label class="m-0">CPF</label>
                     <input type="text" class="form-control" [(ngModel)]="familiar.cpf" name="familiarCpf">
                   </div>
@@ -327,13 +338,13 @@
                   </div>
                   <div class="container">
                     <div class="row justify-content-center">
-                      <button type="submit" class="btn btn-outline-success col-4 mr-1">Concluir</button>
+                      <button type="submit" class="btn btn-outline-success col-4 mr-1" (click)="post()">Concluir</button>
                       <button type="button" class="btn btn-outline-danger" (click)="close()">Cancelar</button>
                     </div>
                   </div>
                 </fieldset>
                 <fieldset *ngSwitchCase="'penas'">
-                  <div class="form-group">
+                  <div class="form-group" *ngIf="new">
                     <label class="m-0">Codigo penal</label>
                     <input type="text" class="form-control" [(ngModel)]="pena.codigo_penal" name="penaCodigoPenal">
                   </div>
@@ -355,7 +366,7 @@
                   </div>
                   <div class="container">
                     <div class="row justify-content-center">
-                      <button type="submit" class="btn btn-outline-success col-4 mr-1">Concluir</button>
+                      <button type="submit" class="btn btn-outline-success col-4 mr-1" (click)="post()">Concluir</button>
                       <button type="button" class="btn btn-outline-danger" (click)="close()">Cancelar</button>
                     </div>
                   </div>

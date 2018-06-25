@@ -84,6 +84,7 @@ export class ItemsService {
         this.http.get<any[]>(this.ROOT_URL + '/blocos/listar').subscribe(items => {
           this.items = items;
           this.items.map(item => item.chave = 'id_bloco');
+          console.log(items);
           this.itemChanges.emit(this.items);
         });
         break;
