@@ -45,7 +45,7 @@
               <h5 class="bold inline">Cidade: </h5><h5 class="inline">{{ bloco.cidade }}</h5><br>
               <h5 class="bold inline">UF: </h5><h5 class="inline">{{ bloco.uf }}</h5><br>
               <h5 class="bold inline">CEP: </h5><h5 class="inline">{{ bloco.cep }}</h5><br>
-              <!--<h5 class="bold link" (click)="celasByBlocos()">Celas</h5>-->
+              <h5 class="bold link" (click)="celasByBlocos()">Celas</h5>
             </div>
             <div *ngSwitchCase="'celas'">
               <h5 class="bold inline">Código: </h5><h5 class="inline">{{ cela.codigo }}</h5><br>
@@ -212,6 +212,10 @@
                   </div>
                 </fieldset>
                 <fieldset *ngSwitchCase="'celas'">
+                  <div class="form-group" *ngIf="new">
+                    <label class="m-0">Código</label>
+                    <input type="text" class="form-control" [(ngModel)]="cela.codigo" name="celaCodigo">
+                  </div>
                   <div class="form-group">
                     <label class="m-0">Quantidade máxima</label>
                     <input type="text" class="form-control" [(ngModel)]="cela.quantidade_max" name="celaMax">
@@ -220,6 +224,14 @@
                     <label class="m-0">Tipo</label>
                     <input type="text" class="form-control" [(ngModel)]="cela.tipo" name="celaTipo">
                   </div>
+                  <div class="form-group" *ngIf="new">
+                    <label class="m-0">Bloco</label>
+                    <input type="text" class="form-control" [(ngModel)]="cela.fk_numero_bloco" name="celaBloco">
+                  </div>
+                  <div class="form-group" *ngIf="new">
+                      <label class="m-0">Pavilhão</label>
+                      <input type="text" class="form-control" [(ngModel)]="cela.fk_numero_pavilhao" name="celaPavilhao">
+                    </div>
                   <div class="container">
                     <div class="row justify-content-center">
                       <button type="submit" class="btn btn-outline-success col-4 mr-1" (click)="post()">Concluir</button>
@@ -252,7 +264,7 @@
                   <div class="form-group">
                     <label class="m-0">Cela</label>
                     <select class="form-control" 
-                    [(ngModel)]="prisioneiro.cela"
+                    [(ngModel)]="prisioneiro.fk_cela"
                     name="prisioneiroCela">
                       <option *ngFor="let cela of combo">{{ cela.codigo }}</option>
                     </select>
@@ -301,7 +313,7 @@
                     <input type="text" class="form-control" [(ngModel)]="servidor.salario" name="servidoresSalario">
                   </div>
                   <div class="form-group" *ngIf="new">
-                    <label class="m-0">Pavilhão</label>
+                    <label class="m-0">Unidade</label>
                     <select class="form-control" 
                       [(ngModel)]="bloco.chave"
                       name="servidorPavilhao">
@@ -318,23 +330,27 @@
                 <fieldset *ngSwitchCase="'familiares'">
                   <div class="form-group" *ngIf="new">
                     <label class="m-0">CPF</label>
-                    <input type="text" class="form-control" [(ngModel)]="familiar.cpf" name="familiarCpf">
+                    <input type="text" class="form-control" [(ngModel)]="familiar.cpf_familiar" name="familiarCpf">
                   </div>
                   <div class="form-group">
                     <label class="m-0">Data de nascimento</label>
-                    <input type="date" class="form-control" [(ngModel)]="familiar.data_nascimento" name="familiarData">
+                    <input type="date" class="form-control" [(ngModel)]="familiar.data_nascimento_familiar" name="familiarData">
                   </div>
                   <div class="form-group">
                     <label class="m-0">RG</label>
-                    <input type="text" class="form-control"  [(ngModel)]="familiar.rg" name="familiarRg">
+                    <input type="text" class="form-control"  [(ngModel)]="familiar.rg_familiar" name="familiarRg">
                   </div>
                   <div class="form-group">
                     <label class="m-0">Nome</label>
-                    <input type="text" class="form-control"  [(ngModel)]="familiar.nome" name="familiarNome">
+                    <input type="text" class="form-control"  [(ngModel)]="familiar.nome_familiar" name="familiarNome">
                   </div>
                   <div class="form-group">
                     <label class="m-0">Parentesco</label>
-                    <input type="text" class="form-control"  [(ngModel)]="familiar.parentesco" name="familiarParentesco">
+                    <input type="text" class="form-control"  [(ngModel)]="familiar.parentesco_familiar" name="familiarParentesco">
+                  </div>
+                  <div class="form-group" *ngIf="new"> <!--não é combo porque prisioneiros são muitos-->
+                    <label class="m-0">CPF do prisioneiro</label>
+                    <input type="text" class="form-control"  [(ngModel)]="familiar.cpf_prisioneiro" name="familiarCpfPrisioneiro">
                   </div>
                   <div class="container">
                     <div class="row justify-content-center">

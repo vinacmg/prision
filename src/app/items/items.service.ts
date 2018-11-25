@@ -10,7 +10,7 @@ export class ItemsService {
   @Output() itemChanges: EventEmitter<Array<any>> = new EventEmitter();
   @Output() fatherChanges: EventEmitter<string> = new EventEmitter();
 
-  readonly ROOT_URL = 'http://localhost/prision/bd-api';
+  readonly ROOT_URL = 'http://localhost:5000';
   
   type:string;
   items: Array<any>;
@@ -58,30 +58,31 @@ export class ItemsService {
   }
 
   getItems() {
+    this.itemChanges.emit([]);
     switch(this.type) {
       case 'unidades':
-        this.http.get<any[]>(this.ROOT_URL + '/unidades/listar').subscribe(items => {
+        this.http.get<JSON[]>(this.ROOT_URL + '/unidades/listar').subscribe(items => {
           this.items = items;
           this.items.map(item => item.chave = 'codigo');
           this.itemChanges.emit(this.items);
         });
         break;
       case 'fornecedores':
-        this.http.get<any[]>(this.ROOT_URL + '/fornecedores/listar').subscribe(items => {
+        this.http.get<JSON[]>(this.ROOT_URL + '/fornecedores/listar').subscribe(items => {
           this.items = items;
           this.items.map(item => item.chave = 'cnpj');
           this.itemChanges.emit(this.items);
         });
         break;
       case 'pavilhões':
-        this.http.get<any[]>(this.ROOT_URL + '/pavilhoes/listar').subscribe(items => {
+        this.http.get<JSON[]>(this.ROOT_URL + '/pavilhoes/listar').subscribe(items => {
           this.items = items;
           this.items.map(item => item.chave = 'numero');
           this.itemChanges.emit(this.items);
         });
         break;
       case 'blocos':
-        this.http.get<any[]>(this.ROOT_URL + '/blocos/listar').subscribe(items => {
+        this.http.get<JSON[]>(this.ROOT_URL + '/blocos/listar').subscribe(items => {
           this.items = items;
           this.items.map(item => item.chave = 'id_bloco');
           console.log(items);
@@ -89,35 +90,35 @@ export class ItemsService {
         });
         break;
       case 'celas':
-        this.http.get<any[]>(this.ROOT_URL + '/celas/listar').subscribe(items => {
+        this.http.get<JSON[]>(this.ROOT_URL + '/celas/listar').subscribe(items => {
           this.items = items;
           this.items.map(item => item.chave = 'codigo');
           this.itemChanges.emit(this.items);
         });
         break;
       case 'prisioneiros':
-        this.http.get<any[]>(this.ROOT_URL + '/prisioneiros/listar').subscribe(items => {
+        this.http.get<JSON[]>(this.ROOT_URL + '/prisioneiros/listar').subscribe(items => {
           this.items = items;
           this.items.map(item => item.chave = 'cpf');
           this.itemChanges.emit(this.items);
         });
         break;
       case 'familiares':
-        this.http.get<any[]>(this.ROOT_URL + '/familiares/listar').subscribe(items => {
+        this.http.get<JSON[]>(this.ROOT_URL + '/familiares/listar').subscribe(items => {
           this.items = items;
           this.items.map(item => item.chave = 'cpf');
           this.itemChanges.emit(this.items);
         });
         break;
       case 'servidores':
-        this.http.get<any[]>(this.ROOT_URL + '/servidores/listar').subscribe(items => {
+        this.http.get<JSON[]>(this.ROOT_URL + '/servidores/listar').subscribe(items => {
           this.items = items;
           this.items.map(item => item.chave = 'cpf');
           this.itemChanges.emit(this.items);
         });
         break;
       case 'penas':
-        this.http.get<any[]>(this.ROOT_URL + '/penas/listar').subscribe(items => {
+        this.http.get<JSON[]>(this.ROOT_URL + '/penas/listar').subscribe(items => {
           this.items = items;
           this.items.map(item => item.chave = 'codigo_penal');
           this.itemChanges.emit(this.items);
