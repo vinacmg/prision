@@ -59,10 +59,12 @@
               <h5 class="bold inline">Observações médicas: </h5><h5 class="inline">{{ prisioneiro.observacoes_medicas }}</h5><br>
               <h5 class="bold inline">Nome: </h5><h5 class="inline">{{ prisioneiro.nome }}</h5><br>
               <h5 class="bold inline">RG: </h5><h5 class="inline">{{ prisioneiro.rg }}</h5><br>
+              <!--
               <h5 class="bold inline">Unidade Prisional: </h5><h5 class="inline">{{ prisioneiro.nome_unidade+', código '+prisioneiro.codigo_unidade }}</h5><br>
               <h5 class="bold inline">Pavilhão: </h5><h5 class="inline">{{ prisioneiro.pavilhao }}</h5><br>
               <h5 class="bold inline">Bloco: </h5><h5 class="inline">{{ prisioneiro.bloco+', andar '+prisioneiro.andar }}</h5><br>
-              <h5 class="bold inline">Cela: </h5><h5 class="inline">{{ prisioneiro.cela }}</h5><br>
+              -->
+              <h5 class="bold inline">Cela: </h5><h5 class="inline">{{ prisioneiro.cela_codigo }}</h5><br>
             </div>
             <div *ngSwitchCase="'servidores'">
               <h5 class="bold inline">CPF: </h5><h5 class="inline">{{ servidor.cpf }}</h5><br>
@@ -85,8 +87,15 @@
               <h5 class="bold inline">Código penal: </h5><h5 class="inline">{{ pena.codigo_penal }}</h5><br>
               <h5 class="bold inline">Área judicial: </h5><h5 class="inline">{{ pena.area_judicial }}</h5><br>
               <h5 class="bold inline">Descrição: </h5><h5 class="inline">{{ pena.descricao }}</h5><br>
-              <h5 class="bold inline">Duração mínima: </h5><h5 class="inline">{{ pena.duracao_min }}</h5><br>
-              <h5 class="bold inline">Duração máxima: </h5><h5 class="inline">{{ pena.duracao_max }}</h5><br>
+              <h5 class="bold inline">Duração mínima: </h5><h5 class="inline">{{ pena.pena_minima }} {{ pena.pena_unidade }}</h5><br>
+              <h5 class="bold inline">Duração máxima: </h5><h5 class="inline">{{ pena.pena_maxima }} {{ pena.pena_unidade }}</h5><br>
+            </div>
+            <div *ngSwitchCase="'cumprimento_penas'">
+              <h5 class="bold inline">Código penal: </h5><h5 class="inline">{{ cumprimento_penas.codigo }}</h5><br>
+              <h5 class="bold inline">Área judicial: </h5><h5 class="inline">{{ cumprimento_penas.prisioneiro }}</h5><br>
+              <h5 class="bold inline">Descrição: </h5><h5 class="inline">{{ cumprimento_penas.crime }}</h5><br>
+              <h5 class="bold inline">Duração mínima: </h5><h5 class="inline">{{ cumprimento_penas.data_inicio }}</h5><br>
+              <h5 class="bold inline">Duração máxima: </h5><h5 class="inline">{{ cumprimento_penas.data_termino }}</h5><br>
             </div>
           </div>
           <!--
@@ -105,8 +114,12 @@
               <form [ngSwitch]="type">
                 <fieldset *ngSwitchCase="'unidades'">
                   <div class="form-group">
+                    <label class="m-0">Código</label>
+                    <input type="text" class="form-control m-0" [(ngModel)]="unidade.codigo" name="unidadeCodigo">
+                  </div>
+                  <div class="form-group">
                     <label class="m-0">Nome</label>
-                    <input type="text" class="form-control m-0" [(ngModel)]="unidade.nome" name="unidadeCodigo">
+                    <input type="text" class="form-control m-0" [(ngModel)]="unidade.nome" name="unidadeNome">
                   </div>
                   <div class="form-group">
                     <label class="m-0">Logradouro</label>
@@ -224,6 +237,10 @@
                     <label class="m-0">Tipo</label>
                     <input type="text" class="form-control" [(ngModel)]="cela.tipo" name="celaTipo">
                   </div>
+                  <div class="form-group">
+                    <label class="m-0">Código Unidade</label>
+                    <input type="text" class="form-control" [(ngModel)]="cela.codigo_unidade" name="celaUnidade">
+                  </div>
                   <div class="form-group" *ngIf="new">
                     <label class="m-0">Bloco</label>
                     <input type="text" class="form-control" [(ngModel)]="cela.fk_numero_bloco" name="celaBloco">
@@ -250,7 +267,7 @@
                   </div>
                   <div class="form-group">
                     <label class="m-0">Observações médicas</label>
-                    <input type="text" class="form-control" [(ngModel)]="prisioneiro.observacoes_medicas" name="prisioneiroObs">
+                    <input type="text" class="form-control" [(ngModel)]="prisioneiro.observacoes_medicas[0]" name="prisioneiroObs">
                   </div>
                   <div class="form-group">
                     <label class="m-0">Nome</label>
@@ -296,6 +313,10 @@
                     <label class="m-0">CPF</label>
                     <input type="text" class="form-control" [(ngModel)]="servidor.cpf" name="servidoresCpf">
                   </div>
+                  <div class="form-group" *ngIf="new">
+                    <label class="m-0">RG</label>
+                    <input type="text" class="form-control" [(ngModel)]="servidor.rg" name="servidoresRg">
+                  </div>
                   <div class="form-group">
                     <label class="m-0">Data de nascimento</label>
                     <input type="date" class="form-control" [(ngModel)]="servidor.data_nascimento" name="servidoresData">
@@ -313,9 +334,9 @@
                     <input type="text" class="form-control" [(ngModel)]="servidor.salario" name="servidoresSalario">
                   </div>
                   <div class="form-group" *ngIf="new">
-                    <label class="m-0">Unidade</label>
+                    <label class="m-0">Pavilhão</label>
                     <select class="form-control" 
-                      [(ngModel)]="bloco.chave"
+                      [(ngModel)]="servidor.chave"
                       name="servidorPavilhao">
                         <option *ngFor="let pavilhao of combo">{{ pavilhao.numero+', unidade '+pavilhao.fk_unid_prisional }}</option>
                     </select>
@@ -366,7 +387,7 @@
                   </div>
                   <div class="form-group">
                     <label class="m-0">Área judicial</label>
-                    <input type="text" class="form-control" [(ngModel)]="pena.area_judicial" name="penaAreaJudicial">
+                    <input type="text" class="form-control" [(ngModel)]="pena.area_penal" name="penaAreaJudicial">
                   </div>
                   <div class="form-group">
                     <label class="m-0">Descrição</label>
@@ -374,11 +395,49 @@
                   </div>
                   <div class="form-group">
                     <label class="m-0">Duração mínima</label>
-                    <input type="text" class="form-control" [(ngModel)]="pena.duracao_min" name="penaDuracaoMin">
+                    <input type="text" class="form-control" [(ngModel)]="pena.pena_minima" name="penaDuracaoMin">
                   </div>
                   <div class="form-group">
                     <label class="m-0">Duração máxima</label>
-                    <input type="text" class="form-control" [(ngModel)]="pena.duracao_max" name="penaDuracaoMax">
+                    <input type="text" class="form-control" [(ngModel)]="pena.pena_maxima" name="penaDuracaoMax">
+                  </div>
+                  <div class="form-group">
+                    <label class="m-0">Unidade da duração</label>
+                    <select class="form-control"
+                      [(ngModel)]="pena.pena_unidade"
+                      name="servidorPavilhao">
+                      <option value="dias">Dias</option>
+                      <option value="meses">Meses</option>
+                      <option value="anos">Anos</option>
+                    </select>
+                  </div>
+                  <div class="container">
+                    <div class="row justify-content-center">
+                      <button type="submit" class="btn btn-outline-success col-4 mr-1" (click)="post()">Concluir</button>
+                      <button type="button" class="btn btn-outline-danger" (click)="close()">Cancelar</button>
+                    </div>
+                  </div>
+                </fieldset>
+                <fieldset *ngSwitchCase="'cumprimento_penas'">
+                  <div class="form-group" *ngIf="new">
+                    <label class="m-0">Codigo</label>
+                    <input type="text" class="form-control" [(ngModel)]="cumprimento_penas.codigo" name="cumprimentoCodigo">
+                  </div>
+                  <div class="form-group">
+                    <label class="m-0">CPF prisioneiro</label>
+                    <input type="text" class="form-control" [(ngModel)]="pena.area_judicial" name="cumprimentoPrisioneiro">
+                  </div>
+                  <div class="form-group">
+                    <label class="m-0">Código Pena</label>
+                    <input type="text" class="form-control" [(ngModel)]="pena.descricao" name="cumprimentoCrime">
+                  </div>
+                  <div class="form-group">
+                    <label class="m-0">Data início</label>
+                    <input type="text" class="form-control" [(ngModel)]="pena.duracao_min" name="cumprimentoDataInicio">
+                  </div>
+                  <div class="form-group">
+                    <label class="m-0">Data fim</label>
+                    <input type="text" class="form-control" [(ngModel)]="pena.duracao_max" name="cumprimentoDataFim">
                   </div>
                   <div class="container">
                     <div class="row justify-content-center">

@@ -17,14 +17,15 @@ export class DetailsComponent implements OnInit {
   type:string;
   value = 'um valor aí';
   bloco = { id_bloco:'', numero:'', andar:'' };
-  cela = { id_cela:'', codigo:'', quantidade_max:'', tipo:''};
+  cela = { codigo:'', capacidade:'', tipo:'', fk_codigo_unidade:''};
   familiar = { cpf:'', data_nascimento: '', rg:'', nome:'', parentesco:'' };
   fornecedor = { cnpj:'', nome_empresa:'', item_ofertado:'' };
   pavilhao = { numero:'', funcao:'' };
-  servidor = { cpf:'', data_nascimento:'', cargo:'', nome:'', salario:'' };
-  unidade = { codigo:'', nome:'', rua:'', bairro:'', cidade:'', estado:'', cep:'' };
-  prisioneiro = { cpf:'', data_nascimento:'', observacoes_medicas:'', nome:'', rg:'', cela:'', penas:[] };
-  pena = { codigo_penal:'', area_judicial:'', descricao:'', duracao_min:'', duracao_max:'' };
+  servidor = { cpf:'', rg:'', data_nascimento:'', cargo:'', nome:'', salario:'' };
+  unidade = { codigo:'', nome:'', logradouro:'', bairro:'', cidade:'', uf:'', cep:'' };
+  prisioneiro = { cpf:'', data_nascimento:'', observacoes_medicas:[], nome:'', rg:'', cela:'', penas:[] };
+  pena = { codigo_penal:'', area_penal:'', descricao:'', pena_minima:'', pena_maxima:'', pena_unidade:'' };
+  cumprimento_penas = { codigo:'', prisioneiro:'', crime:'',data_inicio:'', data_termino:''};
   details:any = {};
 
   constructor(
@@ -69,6 +70,8 @@ export class DetailsComponent implements OnInit {
       case 'penas':
         this.pena = this.details;
         break;
+      case 'cumprimento_penas':
+        this.cumprimento_penas = this.details; 
       }
     });
     this.detailsService.comboChanges.subscribe(combo => {
@@ -121,14 +124,15 @@ export class DetailsComponent implements OnInit {
 
   clear() {
     this.bloco = { id_bloco:'', numero:'', andar:'' };
-    this.cela = { id_cela:'', codigo:'', quantidade_max:'', tipo:''};
+    this.cela = { codigo:'', capacidade:'', tipo:'', fk_codigo_unidade:''};
     this.familiar = { cpf:'', data_nascimento: '', rg:'', nome:'', parentesco:'' };
     this.fornecedor = { cnpj:'', nome_empresa:'', item_ofertado:'' };
     this.pavilhao = { numero:'', funcao:'' };
-    this.servidor = { cpf:'', data_nascimento:'', cargo:'', nome:'', salario:'' };
-    this.unidade = { codigo:'', nome:'', rua:'', bairro:'', cidade:'', estado:'', cep:'' };
-    this.prisioneiro = { cpf:'', data_nascimento:'', observacoes_medicas:'', nome:'', rg:'', cela:'', penas:[] };
-    this.pena = { codigo_penal:'', area_judicial:'', descricao:'', duracao_min:'', duracao_max:'' };
+    this.servidor = { cpf:'', rg:'', data_nascimento:'', cargo:'', nome:'', salario:'' };
+    this.unidade = { codigo:'', nome:'', logradouro:'', bairro:'', cidade:'', uf:'', cep:'' };
+    this.prisioneiro = { cpf:'', data_nascimento:'', observacoes_medicas:[], nome:'', rg:'', cela:'', penas:[] };
+    this.pena = { codigo_penal:'', area_penal:'', descricao:'', pena_minima:'', pena_maxima:'', pena_unidade:'' };
+    this.cumprimento_penas = { codigo:'', prisioneiro:'', crime:'',data_inicio:'', data_termino:''};
   }
 
   post() {
@@ -161,6 +165,8 @@ export class DetailsComponent implements OnInit {
       case 'penas':
         this.detailsService.add(this.pena);
         break;
+      case 'cumprimento_penas':
+        this.detailsService.add(this.cumprimento_penas);
       }
       this.addingItem = false;
       this.showDetails = false;
@@ -194,6 +200,8 @@ export class DetailsComponent implements OnInit {
       case 'penas':
         this.detailsService.alter(this.pena);
         break;
+      case 'cumprimento_penas':
+        this.detailsService.alter(this.cumprimento_penas);
       }
       this.addingItem = false;
       this.showDetails = false;
@@ -230,6 +238,8 @@ export class DetailsComponent implements OnInit {
     case 'penas':
       this.detailsService.delete(this.pena);
       break;
+    case 'cumprimento_penas':
+      this.detailsService.delete(this.cumprimento_penas);
     }
     this.showDetails = false;
     this.clear();

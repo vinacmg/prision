@@ -85,7 +85,6 @@ export class ItemsService {
         this.http.get<JSON[]>(this.ROOT_URL + '/blocos/listar').subscribe(items => {
           this.items = items;
           this.items.map(item => item.chave = 'id_bloco');
-          console.log(items);
           this.itemChanges.emit(this.items);
         });
         break;
@@ -123,7 +122,13 @@ export class ItemsService {
           this.items.map(item => item.chave = 'codigo_penal');
           this.itemChanges.emit(this.items);
         });
-        break;            
+        break;
+      case 'cumprimento_penas':
+        this.http.get<JSON[]>(this.ROOT_URL + '/cumprimento_penas/listar').subscribe(items => {
+          this.items = items;
+          this.items.map(item => item.chave = 'codigo');
+          this.itemChanges.emit(this.items);
+        });        
       default:
     }
   }
