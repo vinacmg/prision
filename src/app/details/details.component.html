@@ -22,7 +22,7 @@
               <h5 class="bold inline">Cidade: </h5><h5 class="inline">{{ unidade.cidade }}</h5><br>
               <h5 class="bold inline">UF: </h5><h5 class="inline">{{ unidade.uf }}</h5><br>
               <h5 class="bold inline">CEP: </h5><h5 class="inline">{{ unidade.cep }}</h5><br>
-              <h5 class="bold link" (click)="pavilhaoByUnidade()">Pavilhões</h5>
+              <!-- <h5 class="bold link" (click)="pavilhaoByUnidade()">Pavilhões</h5> -->
             </div> 
             <div *ngSwitchCase="'fornecedores'">
               <h5 class="bold inline">CNPJ: </h5><h5 class="inline">{{ fornecedor.cnpj }}</h5><br>
@@ -45,13 +45,13 @@
               <h5 class="bold inline">Cidade: </h5><h5 class="inline">{{ bloco.cidade }}</h5><br>
               <h5 class="bold inline">UF: </h5><h5 class="inline">{{ bloco.uf }}</h5><br>
               <h5 class="bold inline">CEP: </h5><h5 class="inline">{{ bloco.cep }}</h5><br>
-              <h5 class="bold link" (click)="celasByBlocos()">Celas</h5>
+              <!-- <h5 class="bold link" (click)="celasByBlocos()">Celas</h5> -->
             </div>
             <div *ngSwitchCase="'celas'">
               <h5 class="bold inline">Código: </h5><h5 class="inline">{{ cela.codigo }}</h5><br>
               <h5 class="bold inline">Quantidade máxima: </h5><h5 class="inline">{{ cela.quantidade_max }}</h5><br>
               <h5 class="bold inline">Tipo: </h5><h5 class="inline">{{ cela.tipo }}</h5><br>
-              <h5 class="bold link" (click)="prisioneirosByCela()">Prisioneiros</h5>
+              <!-- <h5 class="bold link" (click)="prisioneirosByCela()">Prisioneiros</h5> -->
             </div>
             <div *ngSwitchCase="'prisioneiros'">
               <h5 class="bold inline">CPF: </h5><h5 class="inline">{{ prisioneiro.cpf }}</h5><br>
@@ -425,19 +425,19 @@
                   </div>
                   <div class="form-group">
                     <label class="m-0">CPF prisioneiro</label>
-                    <input type="text" class="form-control" [(ngModel)]="pena.area_judicial" name="cumprimentoPrisioneiro">
+                    <input type="text" class="form-control" [(ngModel)]="cumprimento_penas.prisioneiro" name="cumprimentoPrisioneiro">
                   </div>
                   <div class="form-group">
                     <label class="m-0">Código Pena</label>
-                    <input type="text" class="form-control" [(ngModel)]="pena.descricao" name="cumprimentoCrime">
+                    <input type="text" class="form-control" [(ngModel)]="cumprimento_penas.crime" name="cumprimentoCrime">
                   </div>
                   <div class="form-group">
                     <label class="m-0">Data início</label>
-                    <input type="text" class="form-control" [(ngModel)]="pena.duracao_min" name="cumprimentoDataInicio">
+                    <input type="date" class="form-control" [(ngModel)]="cumprimento_penas.data_inicio" name="cumprimentoDataInicio">
                   </div>
                   <div class="form-group">
                     <label class="m-0">Data fim</label>
-                    <input type="text" class="form-control" [(ngModel)]="pena.duracao_max" name="cumprimentoDataFim">
+                    <input type="date" class="form-control" [(ngModel)]="cumprimento_penas.data_termino" name="cumprimentoDataFim">
                   </div>
                   <div class="container">
                     <div class="row justify-content-center">
