@@ -19,13 +19,13 @@ export class DetailsComponent implements OnInit {
   bloco = { id_bloco:'', numero:'', andar:'' };
   cela = { codigo:'', capacidade:'', tipo:'', fk_codigo_unidade:''};
   familiar = { cpf:'', data_nascimento: '', rg:'', nome:'', parentesco:'' };
-  fornecedor = { cnpj:'', nome_empresa:'', item_ofertado:'' };
+  fornecedor = { cnpj:'', nome_empresa:'', item:'' };
   pavilhao = { numero:'', funcao:'' };
   servidor = { cpf:'', rg:'', data_nascimento:'', cargo:'', nome:'', salario:'' };
   unidade = { codigo:'', nome:'', logradouro:'', bairro:'', cidade:'', uf:'', cep:'' };
   prisioneiro = { cpf:'', data_nascimento:'', observacoes_medicas:[], nome:'', rg:'', cela:'', penas:[] };
   pena = { codigo_penal:'', area_penal:'', descricao:'', pena_minima:'', pena_maxima:'', pena_unidade:'' };
-  cumprimento_penas = { codigo:'', prisioneiro:'', crime:'',data_inicio:'', data_termino:''};
+  cumprimento_penas = { codigo:'', prisioneiro:'', area_penal:'',data_inicio:'', data_termino:''};
   details:any = {};
 
   constructor(
@@ -126,13 +126,13 @@ export class DetailsComponent implements OnInit {
     this.bloco = { id_bloco:'', numero:'', andar:'' };
     this.cela = { codigo:'', capacidade:'', tipo:'', fk_codigo_unidade:''};
     this.familiar = { cpf:'', data_nascimento: '', rg:'', nome:'', parentesco:'' };
-    this.fornecedor = { cnpj:'', nome_empresa:'', item_ofertado:'' };
+    this.fornecedor = { cnpj:'', nome_empresa:'', item:'' };
     this.pavilhao = { numero:'', funcao:'' };
     this.servidor = { cpf:'', rg:'', data_nascimento:'', cargo:'', nome:'', salario:'' };
     this.unidade = { codigo:'', nome:'', logradouro:'', bairro:'', cidade:'', uf:'', cep:'' };
     this.prisioneiro = { cpf:'', data_nascimento:'', observacoes_medicas:[], nome:'', rg:'', cela:'', penas:[] };
     this.pena = { codigo_penal:'', area_penal:'', descricao:'', pena_minima:'', pena_maxima:'', pena_unidade:'' };
-    this.cumprimento_penas = { codigo:'', prisioneiro:'', crime:'',data_inicio:'', data_termino:''};
+    this.cumprimento_penas = { codigo:'', prisioneiro:'', area_penal:'',data_inicio:'', data_termino:''};
   }
 
   post() {

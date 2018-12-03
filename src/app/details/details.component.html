@@ -27,7 +27,7 @@
             <div *ngSwitchCase="'fornecedores'">
               <h5 class="bold inline">CNPJ: </h5><h5 class="inline">{{ fornecedor.cnpj }}</h5><br>
               <h5 class="bold inline">Nome da empresa: </h5><h5 class="inline">{{ fornecedor.nome_empresa }}</h5><br>
-              <h5 class="bold inline">Item efertado: </h5><h5 class="inline">{{ fornecedor.item_ofertado }}</h5><br>
+              <h5 class="bold inline">Item efertado: </h5><h5 class="inline">{{ fornecedor.item }}</h5><br>
             </div>
             <div *ngSwitchCase="'pavilhões'">
               <h5 class="bold inline">Número: </h5><h5 class="inline">{{ pavilhao.numero }}</h5><br>
@@ -85,17 +85,17 @@
             </div>
             <div *ngSwitchCase="'penas'">
               <h5 class="bold inline">Código penal: </h5><h5 class="inline">{{ pena.codigo_penal }}</h5><br>
-              <h5 class="bold inline">Área judicial: </h5><h5 class="inline">{{ pena.area_judicial }}</h5><br>
+              <h5 class="bold inline">Área judicial: </h5><h5 class="inline">{{ pena.area_penal }}</h5><br>
               <h5 class="bold inline">Descrição: </h5><h5 class="inline">{{ pena.descricao }}</h5><br>
               <h5 class="bold inline">Duração mínima: </h5><h5 class="inline">{{ pena.pena_minima }} {{ pena.pena_unidade }}</h5><br>
               <h5 class="bold inline">Duração máxima: </h5><h5 class="inline">{{ pena.pena_maxima }} {{ pena.pena_unidade }}</h5><br>
             </div>
             <div *ngSwitchCase="'cumprimento_penas'">
               <h5 class="bold inline">Código penal: </h5><h5 class="inline">{{ cumprimento_penas.codigo }}</h5><br>
-              <h5 class="bold inline">Área judicial: </h5><h5 class="inline">{{ cumprimento_penas.prisioneiro }}</h5><br>
-              <h5 class="bold inline">Descrição: </h5><h5 class="inline">{{ cumprimento_penas.crime }}</h5><br>
-              <h5 class="bold inline">Duração mínima: </h5><h5 class="inline">{{ cumprimento_penas.data_inicio }}</h5><br>
-              <h5 class="bold inline">Duração máxima: </h5><h5 class="inline">{{ cumprimento_penas.data_termino }}</h5><br>
+              <h5 class="bold inline">Área judicial: </h5><h5 class="inline">{{ cumprimento_penas.area_penal }}</h5><br>
+              <h5 class="bold inline">Descrição: </h5><h5 class="inline">{{ cumprimento_penas.descricao }}</h5><br>
+              <h5 class="bold inline">Duração início: </h5><h5 class="inline">{{ cumprimento_penas.data_inicio }}</h5><br>
+              <h5 class="bold inline">Duração fim: </h5><h5 class="inline">{{ cumprimento_penas.data_termino }}</h5><br>
             </div>
           </div>
           <!--
@@ -167,7 +167,7 @@
                   </div>
                   <div class="form-group">
                     <label class="m-0">Item efertado</label>
-                    <input type="text" class="form-control" [(ngModel)]="fornecedor.item_ofertado" name="fornecedorOfertado">
+                    <input type="text" class="form-control" [(ngModel)]="fornecedor.item" name="fornecedorOfertado">
                   </div>
                   <div class="container">
                     <div class="row justify-content-center">
