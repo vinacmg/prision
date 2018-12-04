@@ -49,7 +49,7 @@
             </div>
             <div *ngSwitchCase="'celas'">
               <h5 class="bold inline">Código: </h5><h5 class="inline">{{ cela.codigo }}</h5><br>
-              <h5 class="bold inline">Quantidade máxima: </h5><h5 class="inline">{{ cela.quantidade_max }}</h5><br>
+              <h5 class="bold inline">Quantidade máxima: </h5><h5 class="inline">{{ cela.capacidade }}</h5><br>
               <h5 class="bold inline">Tipo: </h5><h5 class="inline">{{ cela.tipo }}</h5><br>
               <!-- <h5 class="bold link" (click)="prisioneirosByCela()">Prisioneiros</h5> -->
             </div>
@@ -72,8 +72,8 @@
               <h5 class="bold inline">Cargo: </h5><h5 class="inline">{{ servidor.cargo }}</h5><br>
               <h5 class="bold inline">Nome: </h5><h5 class="inline">{{ servidor.nome }}</h5><br>
               <h5 class="bold inline">Salário: </h5><h5 class="inline">{{ servidor.salario }}</h5><br>
-              <h5 class="bold inline">Pavilhão: </h5><h5 class="inline">{{ servidor.numero_pavilhao }}</h5><br>
-              <h5 class="bold inline">Unidade Prisional: </h5><h5 class="inline">{{ servidor.nome_unidade+', código '+servidor.codigo_unidade }}</h5><br>
+              <!-- <h5 class="bold inline">Pavilhão: </h5><h5 class="inline">{{ servidor.numero_pavilhao }}</h5><br> -->
+              <h5 class="bold inline">Unidade Prisional: </h5><h5 class="inline">{{ servidor.codigo_unidade }}</h5><br>
             </div>
             <div *ngSwitchCase="'familiares'">
               <h5 class="bold inline">CPF: </h5><h5 class="inline">{{ familiar.cpf_familiar }}</h5><br>
@@ -231,7 +231,7 @@
                   </div>
                   <div class="form-group">
                     <label class="m-0">Quantidade máxima</label>
-                    <input type="text" class="form-control" [(ngModel)]="cela.quantidade_max" name="celaMax">
+                    <input type="text" class="form-control" [(ngModel)]="cela.capacidade" name="celaMax">
                   </div>
                   <div class="form-group">
                     <label class="m-0">Tipo</label>
@@ -333,12 +333,20 @@
                     <label class="m-0">Salário</label>
                     <input type="text" class="form-control" [(ngModel)]="servidor.salario" name="servidoresSalario">
                   </div>
-                  <div class="form-group" *ngIf="new">
+                  <!-- <div class="form-group" *ngIf="new">
                     <label class="m-0">Pavilhão</label>
                     <select class="form-control" 
                       [(ngModel)]="servidor.chave"
                       name="servidorPavilhao">
                         <option *ngFor="let pavilhao of combo">{{ pavilhao.numero+', unidade '+pavilhao.fk_unid_prisional }}</option>
+                    </select>
+                  </div> -->
+                  <div class="form-group" *ngIf="new">
+                    <label class="m-0">Unidade</label>
+                    <select class="form-control" 
+                      [(ngModel)]="servidor.fk_codigo_unidade"
+                      name="servidorUnidade">
+                        <option *ngFor="let unidade of combo">{{ unidade.codigo }}</option>
                     </select>
                   </div>
                   <div class="container">

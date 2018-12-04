@@ -101,8 +101,8 @@ export class DetailsService {
         });
         break;
       case 'servidores':
-        item["fk_codigo_unidade"] = item['chave'].slice(-1)[0];
-        item["fk_numero_pavilhao"] = item['chave'][0];
+        // item["fk_codigo_unidade"] = item['chave'].slice(-1)[0];
+        // item["fk_numero_pavilhao"] = item['chave'][0];
         this.http.post<any>(this.ROOT_URL + '/servidores/criar', item, this.httpOptions).subscribe(resp => {
           console.log(resp);
           this.itemsService.getItems();
@@ -365,7 +365,7 @@ export class DetailsService {
         });
         break;
       case 'servidores':
-        this.http.get<any[]>(this.ROOT_URL + '/pavilhoes/listar').subscribe(items => {
+        this.http.get<any[]>(this.ROOT_URL + '/unidades/listar').subscribe(items => {
           this.combo = items;
           this.combo.map(item => item.chave = 'cpf');
           this.comboChanges.emit(this.combo);
